@@ -33,7 +33,7 @@ public:
     Queue(uint16_t depth);
 
     //Functions
-    bool Send(Command& command);
+    bool Send(Command& command, bool reportFull = true);
     bool SendFromISR(Command& command);
 
     bool SendToFront(Command& command);

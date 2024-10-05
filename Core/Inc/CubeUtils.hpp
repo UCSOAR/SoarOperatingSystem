@@ -28,8 +28,8 @@ constexpr double MATH_PI = 3.14159265358979323846;
 #define GET_COBS_MAX_LEN(len) (((len) + ((len) / 254) + 1) + 1)    // Get the max length of a COBS encoded string, we add 1 for the 0x00 delimiter
 
 // Conversion macros (SYSTEM)
-#define TICKS_TO_MS(time_ticks) ((time_ticks) * 1000 / osKernelSysTickFrequency) // System ticks to milliseconds
-#define MS_TO_TICKS(time_ms) ((time_ms) * osKernelSysTickFrequency / 1000) // Milliseconds to system ticks
+#define TICKS_TO_MS(time_ticks) ((time_ticks) * (1000 / osKernelSysTickFrequency)) // System ticks to milliseconds
+#define MS_TO_TICKS(time_ms) ((time_ms) * (osKernelSysTickFrequency / 1000)) // Milliseconds to system ticks
 
 // System Time Macros
 constexpr uint32_t MAX_DELAY_MS = TICKS_TO_MS(portMAX_DELAY);
@@ -39,13 +39,13 @@ constexpr uint32_t MAX_DELAY_TICKS = portMAX_DELAY;
 namespace Utils
 {
     // Arrays
-    uint16_t averageArray(uint16_t array[], int size);
-    void writeInt32ToArrayBigEndian(uint8_t* array, int startIndex, int32_t value);
-    int32_t readInt32FromArrayBigEndian(uint8_t* array, int startIndex);
+    uint16_t AverageArray(uint16_t array[], int size);
+    void WriteInt32ToArrayBigEndian(uint8_t* array, int startIndex, int32_t value);
+    int32_t ReadInt32FromArrayBigEndian(uint8_t* array, int startIndex);
 
     // CRC
-    uint32_t getCRC32Aligned(uint8_t* data, uint32_t size);
-    uint16_t getCRC16(uint8_t* data, uint16_t size);
+    uint32_t GetCRC32Aligned(uint8_t* data, uint32_t size);
+    uint16_t GetCRC16(uint8_t* data, uint16_t size);
 
     bool IsCrc16Correct(uint8_t* data, uint16_t size, uint16_t crc);
 
@@ -55,7 +55,10 @@ namespace Utils
     inline bool IsAsciiLowercase(uint8_t c) { return (c >= 'a' && c <= 'z'); }
 
     // String to number conversion
-    int32_t stringToLong(const char* str);
+    int32_t StringToLong(const char* str);
+
+    // Debug functionality
+    int32_t ExtractIntParameter(const char* msg, uint16_t identifierLen);
 
 
 }

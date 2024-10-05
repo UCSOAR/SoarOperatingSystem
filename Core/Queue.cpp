@@ -68,16 +68,19 @@ bool Queue::SendToFront(Command& command)
 /**
  * @brief Sends a command object to the queue (sends to back of queue in FIFO order)
  * @param command Command object reference to send
+ * @param reportFull If true (default), prints an error message if the queue is full
  * @return true on success, false on failure (queue full)
+ * 
+ * //TODO: It may be possible to have this automatically set the command to not free data externally 
+ * as we've "passed" control of the data over, which might let us use a destructor to free the data  
 */
-bool Queue::Send(Command& command)
+bool Queue::Send(Command& command, bool reportFull)
 {
     if (xQueueSend(rtQueueHandle, &command, DEFAULT_QUEUE_SEND_WAIT_TICKS) == pdPASS)
         return true;
 
-    //TODO: It may be possible to have this automatically set the command to not free data externally as we've "passed" control of the data over, which might let us use a destructor to free the data
+    if (reportFull) CUBE_PRINT("Could not send data to queue!\n");
 
-    CUBE_PRINT("Could not send data to queue!\n");
     command.Reset();
 
     return false;

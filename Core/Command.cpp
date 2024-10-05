@@ -1,14 +1,17 @@
 /**
  ******************************************************************************
  * File Name          : Command.cpp
- * Description        : Command contains the core component base class for all tasks.
+ * Description        :
+ *
+ * Command contains the core event object for tasks.
  *
  * The order of usage for command memory requires that whenever a command is pulled out from a queue
  * you MUST call Reset() on the command. This will free any memory that was allocated for the command if
  * it is necessary, the logic is internal.
+ *
  ******************************************************************************
 */
-#include <Core/Inc/Command.hpp>
+#include "Core/Inc/Command.hpp"
 
 #include "CubeDefines.hpp"
 #include "SystemDefines.hpp"

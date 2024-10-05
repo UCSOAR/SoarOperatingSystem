@@ -48,7 +48,7 @@ void cube_print(const char* str, ...)
         cmd.CopyDataToCommand(str_buffer, buflen);
 
         //Send this packet off to the UART Task
-        CubeTask::Inst().SendCommandReference(cmd);
+        CubeTask::Inst().GetEventQueue()->Send(cmd, false);
     }
     else
     {

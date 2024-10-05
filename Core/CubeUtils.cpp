@@ -17,7 +17,7 @@
  * @param size: The size of the array
  * @return Returns the average as a uint16_t
  */
-uint16_t Utils::averageArray(uint16_t array[], int size)
+uint16_t Utils::AverageArray(uint16_t array[], int size)
 {
     uint32_t sum = 0;
 
@@ -36,7 +36,7 @@ uint16_t Utils::averageArray(uint16_t array[], int size)
  * @param startIndex: The index to start storing the bytes at
  * @param value: The int32 to convert
  */
-void Utils::writeInt32ToArrayBigEndian(uint8_t* array, int startIndex, int32_t value)
+void Utils::WriteInt32ToArrayBigEndian(uint8_t* array, int startIndex, int32_t value)
 {
     array[startIndex + 0] = (value >> 24) & 0xFF;
     array[startIndex + 1] = (value >> 16) & 0xFF;
@@ -50,7 +50,7 @@ void Utils::writeInt32ToArrayBigEndian(uint8_t* array, int startIndex, int32_t v
  * @param startIndex, where the data field starts in the array
  * @return The value read from the array in big endian format
  */
-int32_t Utils::readInt32FromArrayBigEndian(uint8_t* array, int startIndex)
+int32_t Utils::ReadInt32FromArrayBigEndian(uint8_t* array, int startIndex)
 {
     int32_t temp = 0;
     temp += (array[startIndex + 0] << 24); // eeprom reads little or big endian?
@@ -65,7 +65,7 @@ int32_t Utils::readInt32FromArrayBigEndian(uint8_t* array, int startIndex)
  * @param data The data to generate the checksum for
  * @param size The size of the data array in uint8_t
  */
-uint32_t Utils::getCRC32Aligned(uint8_t* data, uint32_t size)
+uint32_t Utils::GetCRC32Aligned(uint8_t* data, uint32_t size)
 {
     // Figure out the number of bytes to pad by
     uint8_t pad = 0;
@@ -92,7 +92,7 @@ uint32_t Utils::getCRC32Aligned(uint8_t* data, uint32_t size)
  * @param size  The size of the data array in uint8_t
  * @return The CRC16 checksum
  */
-uint16_t Utils::getCRC16(uint8_t* data, uint16_t size)
+uint16_t Utils::GetCRC16(uint8_t* data, uint16_t size)
 {
     // ETL CRC16 object
     etl::crc16_xmodem crc;
@@ -117,7 +117,7 @@ uint16_t Utils::getCRC16(uint8_t* data, uint16_t size)
 bool Utils::IsCrc16Correct(uint8_t* data, uint16_t size, uint16_t crc)
 {
     // First we calculate the crc16 for the buffer
-    uint16_t calculatedCrc = getCRC16(data, size);
+    uint16_t calculatedCrc = GetCRC16(data, size);
 
     return (calculatedCrc == crc);
 }
@@ -127,7 +127,7 @@ bool Utils::IsCrc16Correct(uint8_t* data, uint16_t size, uint16_t crc)
  * @param str The string to convert, must be null terminated
  * @return The converted int32_t, or ERRVAL on an error
  */
-int32_t Utils::stringToLong(const char* str)
+int32_t Utils::StringToLong(const char* str)
 {
     int32_t result = 0;
     const uint8_t size = (strlen(str) < 255) ? strlen(str) : 255;
@@ -147,5 +147,39 @@ int32_t Utils::stringToLong(const char* str)
     }
 
     return result;
-
 }
+
+/**
+ * @brief Extracts an integer parameter from a string
+ * @brief msg Message to extract from, MUST be at least identifierLen long, and properly null terminated
+ * @brief identifierLen Length of the identifier eg. 'rsc ' (Including the space) is 4
+ * 
+ * @example  if (strncmp(msg, "rsc ", 4) == 0) { // Notice the 4 here coresponds to the 4 in ExtractIntParameter
+ *               // Get parameter
+ *              int32_t state = ExtractIntParameter(msg, 4);
+ *
+ *              // Error check the state variable (confine to parameters)
+ *              if (state != ERRVAL && state > 0 && state < UINT16_MAX) {
+ *                  // Do something with the 'state' variable
+ *              }
+ *           }
+ * 
+ * @return ERRVAL on failure, otherwise the extracted value
+ */
+int32_t Utils::ExtractIntParameter(const char* msg, uint16_t identifierLen)
+{
+    // Handle a command with an int parameter at the end
+    if (static_cast<uint16_t>(strlen(msg)) < identifierLen+1) {
+        CUBE_PRINT("Int parameter insufficient length\r\n");
+        return ERRVAL;
+    }
+    
+    // Extract the value and attempt conversion to integer
+    const int32_t val = Utils::StringToLong(&msg[identifierLen]);
+    if (val == ERRVAL) {
+        CUBE_PRINT("Int parameter invalid value\r\n");
+    }
+
+    return val;
+}
+
