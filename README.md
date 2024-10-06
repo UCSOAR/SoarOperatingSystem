@@ -90,13 +90,13 @@ Please ensure the following folders are not in the exclude from build option:
 - (none for this version)
 
 ### Codebase Setup
-An example project utilizing Cube++ with basic CUBE_PRINT support, in addition to a Debug receive task for parsing input data on the debug line can be found at https://github.com/cjchanx/cubeplusplus-examples/tree/main/Basic_Debug
+An example project utilizing Cube++ with basic SOAR_PRINT support, in addition to a Debug receive task for parsing input data on the debug line can be found at https://github.com/cjchanx/cubeplusplus-examples/tree/main/Basic_Debug
 
 - It is recommended to setup a new folder called `Components` or `Modules` in the root where all the code goes.
 - There are a few files that you should have in `Components`/`Modules`:
 	- SystemDefines.hpp : An example can be found [here](https://github.com/cjchanx/cubeplusplus-examples/blob/main/Basic_Debug/Components/SystemDefines.hpp)
-	- main_system.cpp   : This can be named anything you want, but should contain the run_main() function that is the entry point for your codebase, example [here](https://github.com/cjchanx/cubeplusplus-examples/blob/main/Basic_Debug/Components/main_system.cpp)
-	- main_system.hpp   : Header file for main_system.cpp, example [here](https://github.com/cjchanx/cubeplusplus-examples/blob/main/Basic_Debug/Components/main_system.hpp)
+	- main_avionics.cpp   : This can be named anything you want, but should contain the run_main() function that is the entry point for your codebase, example [here](https://github.com/cjchanx/cubeplusplus-examples/blob/main/Basic_Debug/Components/main_avionics.cpp)
+	- main_avionics.hpp   : Header file for main_avionics.cpp, example [here](https://github.com/cjchanx/cubeplusplus-examples/blob/main/Basic_Debug/Components/main_avionics.hpp)
 	- SysCore/Inc/RunInterface.hpp : Header file for the run interface which allows C code to call into the C++ codebase without errors, example [here](https://github.com/cjchanx/cubeplusplus-examples/blob/main/Basic_Debug/Components/Core/Inc/RunInterface.hpp)
 	- SysCore/RunInterface.cpp : Code file for the run interface, example [here](https://github.com/cjchanx/cubeplusplus-examples/blob/main/Basic_Debug/Components/Core/RunInterface.cpp)
 - Setup Debug UART

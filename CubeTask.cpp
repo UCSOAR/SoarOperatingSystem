@@ -14,7 +14,7 @@
 void CubeTask::InitTask()
 {
     // Make sure the task is not already initialized
-    CUBE_ASSERT(rtTaskHandle == nullptr, "Cannot initialize UART task twice");
+    SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot initialize UART task twice");
 
     // Start the task
     BaseType_t rtValue =
@@ -26,7 +26,7 @@ void CubeTask::InitTask()
             (TaskHandle_t*)&rtTaskHandle);
 
     //Ensure creation succeded
-    CUBE_ASSERT(rtValue == pdPASS, "CUBETask::InitTask() - xTaskCreate() failed");
+    SOAR_ASSERT(rtValue == pdPASS, "CUBETask::InitTask() - xTaskCreate() failed");
 }
 
 /**
@@ -65,13 +65,13 @@ void CubeTask::HandleCommand(Command& cm)
 #endif
             break;
         default:
-            CUBE_PRINT("CUBETask - Received Unsupported DATA_COMMAND {%d}\n", cm.GetTaskCommand());
+            SOAR_PRINT("CUBETask - Received Unsupported DATA_COMMAND {%d}\n", cm.GetTaskCommand());
             break;
         }
         break;
     }
     default:
-        CUBE_PRINT("CUBETask - Received Unsupported Command {%d}\n", cm.GetCommand());
+        SOAR_PRINT("CUBETask - Received Unsupported Command {%d}\n", cm.GetCommand());
         break;
     }
 
