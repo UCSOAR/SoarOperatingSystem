@@ -72,11 +72,11 @@ Add the Cube++ repository into the root folder as a submodule using one of these
 
 SSH
 ```
-git submodule add git@github.com:cjchanx/CubePlusPlus.git Cube++
+git submodule add git@github.com:UCSOAR/SoarOperatingSystem.git SoarOS
 ```
 HTTPS
 ```
-git submodule add https://github.com/cjchanx/cubeplusplus-examples.git Cube++
+git submodule add https://github.com/cjchanx/cubeplusplus-examples.git SoarOS
 ```
 
 Please add the following to include paths:
