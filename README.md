@@ -119,4 +119,10 @@ An example project utilizing Cube++ with basic CUBE_PRINT support, in addition t
 ## Components/Cube++ excluded from build
 - CubeIDE may exclude newly added folders from the build, to include it right click on the folder, go into Properties > C/C++ Build (on the left bar) > Select Configuration: `[All Configurations]` in the dropdown box, and then untick "Exclude Resource from Build"
 
+## Errors building Embedded Template Library
+- The included etl_profile is set for C++17 and up, change the C/C++ build settings to use the GNU++17 language standard
+- Right click the project in the project explorer > Properties > Expand C/C++ Build > Settings > General under MCU G++ Compiler > Language Standard
+- Change to GNU++17 (ISO C++17 + gnu extensions)(-std=gnu++17) or up
+<img src="https://github.com/user-attachments/assets/7a787c0f-f7ad-4fcc-90fe-cd928f29ceaa" width="450">
+
 
