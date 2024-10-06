@@ -76,7 +76,7 @@ git submodule add git@github.com:UCSOAR/SoarOperatingSystem.git SoarOS
 ```
 HTTPS
 ```
-git submodule add https://github.com/cjchanx/cubeplusplus-examples.git SoarOS
+git submodule add https://github.com/UCSOAR/SoarOperatingSystem.git SoarOS
 ```
 
 Please add the following to include paths:
