@@ -125,4 +125,13 @@ An example project utilizing Cube++ with basic CUBE_PRINT support, in addition t
 - Change to GNU++17 (ISO C++17 + gnu extensions)(-std=gnu++17) or up
 <img src="https://github.com/user-attachments/assets/7a787c0f-f7ad-4fcc-90fe-cd928f29ceaa" width="450">
 
+## Warnings Voltatile and Register when using C++17
+- Recommended to add the following build flags
+```
+-Wno-register
+-Wno-volatile
+```
+- Right click the project in the project explorer > Properties > Expand C/C++ Build > Settings > Miscellaneous under MCU G++ Compiler
+<img src="https://github.com/user-attachments/assets/2a83056c-2803-40c3-85aa-41dda7d9c48e" width="450">
+
 
