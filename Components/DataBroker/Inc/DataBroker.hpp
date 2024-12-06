@@ -13,7 +13,6 @@
 /************************************
  * INCLUDES
  ************************************/
-#include "DataBroker.hpp"
 #include "Publisher.hpp"
 #include "SensorDataTypes.hpp"
 #include "Command.hpp"
@@ -51,6 +50,11 @@ class DataBroker {
     PublisherInformation<T> publisherInformation = getPublisherInformation<T>();
     publisherInformation.publisher->Publish(dataToPublish, publisherInformation.messageType);
   }
+
+  //  void ExtractDataFromCommand(Command dataCommand) {
+  //  	DataBrokerMessageTypes messageType = static_cast<DataBrokerMessageTypes>(dataCommand.GetTaskCommand());
+  //
+  //  }
 
  private:
   // matcher - match template type with publisher type
