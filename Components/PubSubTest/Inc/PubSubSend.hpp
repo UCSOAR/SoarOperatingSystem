@@ -1,14 +1,14 @@
 /**
  ********************************************************************************
- * @file    Subscriber.hpp
+ * @file    PubSubSend.hpp
  * @author  shiva
- * @date    Nov 23, 2024
+ * @date    Dec 14, 2024
  * @brief
  ********************************************************************************
  */
 
-#ifndef SUBSCRIBER_HPP_
-#define SUBSCRIBER_HPP_
+#ifndef PUBSUBSEND_HPP_
+#define PUBSUBSEND_HPP_
 
 /************************************
  * INCLUDES
@@ -27,33 +27,31 @@
 /************************************
  * CLASS DEFINITIONS
  ************************************/
-class Subscriber {
+class PubSubSend : public Task {
  public:
-  void Init(Task* subscriberTaskHandle) {
-    if (taskHandle != nullptr || taskQueue != nullptr) {
-      SOAR_ASSERT(false, "You cannot overwrite a subscriber");
-      return;
-    }
-    taskHandle = subscriberTaskHandle;
-    taskQueue = taskHandle->GetEventQueue();
+  static PubSubSend& Inst() {
+    static PubSubSend inst;
+    return inst;
   }
 
-  void Delete() {
-    taskHandle = nullptr;
-    taskQueue = nullptr;
-  }
+  void InitTask();
 
-  inline const Task* getSubscriberTaskHandle() const { return taskHandle; }
-
-  inline Queue* getSubscriberQueueHandle() const { return taskQueue; }
+ protected:
+  static void RunTask(void* pvParams) {
+    PubSubSend::Inst().Run(pvParams);
+  }  // Static Task Interface, passes control to the instance Run();
+  void Run(void* pvParams);  // Main run code
+  void HandleCommand(Command& cm);
 
  private:
-  Task* taskHandle = nullptr;
-  Queue* taskQueue = nullptr;
+  // Private Functions
+  PubSubSend();                              // Private constructor
+  PubSubSend(const PubSubSend&);             // Prevent copy-construction
+  PubSubSend& operator=(const PubSubSend&);  // Prevent assignment
 };
 
 /************************************
  * FUNCTION DECLARATIONS
  ************************************/
 
-#endif /* SUBSCRIBER_HPP_ */
+#endif /* PUBSUBSEND_HPP_ */
