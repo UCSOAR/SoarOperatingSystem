@@ -100,6 +100,11 @@ class DataBroker {
     return;
   }
 
+  /**
+   * @brief This API can be used to offload the data from the databroker message
+   *        into a new object in the receiving task
+   * @param cm the Command object that contains the databroker message
+   */
   template <typename T>
   static constexpr T ExtractData(const Command& cm) {
     if (cm.GetCommand() != DATA_BROKER_COMMAND) {
@@ -117,6 +122,12 @@ class DataBroker {
     return data;
   }
 
+  /**
+   * @brief This API can be use to get the type of data broker message contained
+   *        in the message.
+   *        All the message types can be found in DataBrokerMessageTypes.hpp
+   * @param cm the Command object that contains the databroker message
+   */
   static DataBrokerMessageTypes getMessageType(const Command& cm) {
     return static_cast<DataBrokerMessageTypes>(cm.GetTaskCommand());
   }
@@ -137,13 +148,17 @@ class DataBroker {
   // Mutex lock wait time
   static constexpr uint16_t SUBSCRIBER_LIST_MUTEX_TIMEOUT = 1000;
 
-  // matcher - match template type with publisher type
+  /**
+   * @brief Checks if the 2 template types are the same
+   */
   template <typename T, typename U>
   static constexpr bool matchType() {
     return std::is_same_v<T, U>;
   }
 
-  // get data publisher
+  /**
+   * @brief Returns the correct Publisher object for a template type
+   */
   template <typename T>
   static constexpr auto getPublisher(void) {
     if constexpr (matchType<T, IMUData>()) {
@@ -155,7 +170,7 @@ class DataBroker {
     }
   }
 
-  // list of publishers
+  // List of Publishers
   inline static Publisher<IMUData> IMU_Data_publisher{DataBrokerMessageTypes::IMU_DATA};
   inline static Publisher<ThermocoupleData> Thermocouple_Data_publisher{DataBrokerMessageTypes::THERMOCOUPLE_DATA};
 };
