@@ -119,11 +119,11 @@ class DataBroker {
     if (messageType != publisher->GetPublisherMessageType()) {
       const std::string errorMessage = "Trying to unpack the wrong type of message. You are trying to use " +
                                        DataBrokerMessageType::ToString(publisher->GetPublisherMessageType()) +
-                                       " instead of " + DataBrokerMessageType::ToString(messageType) + "\n";
+                                       " instead of " + DataBrokerMessageType::ToString(messageType) + "\n\n";
 
       const char* messageCStr = errorMessage.c_str();
-
-      SOAR_ASSERT(false, messageCStr);
+      SOAR_PRINT(messageCStr);
+      SOAR_ASSERT(false, "");
     }
 
     // The data allocated by this command ptr will be freed when cm.Reset()]
