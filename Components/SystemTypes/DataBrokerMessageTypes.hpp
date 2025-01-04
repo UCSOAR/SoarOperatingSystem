@@ -1,7 +1,7 @@
 /**
  ********************************************************************************
  * @file    DataBrokerMessageTypes.hpp
- * @author  shivam
+ * @author  Shivam Desai
  * @date    Nov 23, 2024
  * @brief
  ********************************************************************************
@@ -14,6 +14,7 @@
  * INCLUDES
  ************************************/
 #include <stdint.h>
+#include <string>
 
 /************************************
  * MACROS AND DEFINES
@@ -28,6 +29,7 @@ enum class DataBrokerMessageTypes : uint8_t {
   THERMOCOUPLE_DATA,
 };
 
+namespace DataBrokerMessageType {
 /************************************
  * CLASS DEFINITIONS
  ************************************/
@@ -35,5 +37,29 @@ enum class DataBrokerMessageTypes : uint8_t {
 /************************************
  * FUNCTION DECLARATIONS
  ************************************/
+std::string ToString(DataBrokerMessageTypes messageType);
+
+inline std::string ToString(DataBrokerMessageTypes messageType) {
+  switch (messageType) {
+    case DataBrokerMessageTypes::IMU_DATA: {
+      std::string type{"IMU_DATA"};
+      return type;
+    }
+
+    case DataBrokerMessageTypes::THERMOCOUPLE_DATA: {
+      std::string type{"THERMOCOUPLE_DATA"};
+      return type;
+    }
+
+    case DataBrokerMessageTypes::INVALID:
+      [[fallthrough]];
+    default: {
+      std::string type{"INVALID"};
+      return type;
+    }
+  }
+}
+
+}  // namespace DataBrokerMessageType
 
 #endif /* DATA_BROKER_MESSAGE_TYPES_HPP_ */

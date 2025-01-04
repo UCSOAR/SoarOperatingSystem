@@ -1,7 +1,7 @@
 /**
  ********************************************************************************
  * @file    Publisher.hpp
- * @author  shivam
+ * @author  Shivam Desai
  * @date    Nov 23, 2024
  * @brief
  ********************************************************************************
@@ -89,6 +89,8 @@ class Publisher {
       }
     }
   }
+
+  DataBrokerMessageTypes GetPublisherMessageType() { return publisherMessageType; }
 
  private:
   // list of subscribers

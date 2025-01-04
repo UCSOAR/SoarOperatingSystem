@@ -1,7 +1,7 @@
 /**
  ********************************************************************************
  * @file    DataBroker.hpp
- * @author  shivam
+ * @author  Shivam Desai
  * @date    Nov 23, 2024
  * @brief
  ********************************************************************************
@@ -21,6 +21,8 @@
 #include "Mutex.hpp"
 #include <type_traits>
 #include <cstring>
+#include <string>
+#include <sstream>
 
 /************************************
  * MACROS AND DEFINES
@@ -109,6 +111,19 @@ class DataBroker {
   static constexpr T ExtractData(const Command& cm) {
     if (cm.GetCommand() != DATA_BROKER_COMMAND) {
       SOAR_ASSERT("Not a Data Broker Command!\n");
+    }
+
+    Publisher<T>* publisher = getPublisher<T>();
+    DataBrokerMessageTypes messageType = DataBroker::getMessageType(cm);
+
+    if (messageType != publisher->GetPublisherMessageType()) {
+      const std::string errorMessage = "Trying to unpack the wrong type of message. You are trying to use " +
+                                       DataBrokerMessageType::ToString(publisher->GetPublisherMessageType()) +
+                                       " instead of " + DataBrokerMessageType::ToString(messageType) + "\n";
+
+      const char* messageCStr = errorMessage.c_str();
+
+      SOAR_ASSERT(false, messageCStr);
     }
 
     // The data allocated by this command ptr will be freed when cm.Reset()]
