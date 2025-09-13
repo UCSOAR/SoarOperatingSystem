@@ -39,4 +39,12 @@ struct ThermocoupleData {
   int32_t temperature;
 };
 
+
+
+struct PressureData {
+	uint32_t pressure;
+};
+
+
+
 #endif /* SENSORDATATYPES_HPP_ */

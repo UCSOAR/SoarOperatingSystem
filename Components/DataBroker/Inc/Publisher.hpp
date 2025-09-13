@@ -38,18 +38,18 @@ class Publisher {
   Publisher(DataBrokerMessageTypes messageType) { publisherMessageType = messageType; }
 
   // subscribe
-  bool Subscribe(Task* taskToSubscribe) {
+  bool Subscribe(Queue* queueToSubscribe) {
     // Check if subscriber already exists
     for (Subscriber& subscriber : subscribersList) {
-      if (subscriber.getSubscriberTaskHandle() == taskToSubscribe) {
+      if (subscriber.getSubscriberQueueHandle() == queueToSubscribe) {
         return true;
       }
     }
 
     // Add the subscriber
     for (Subscriber& subscriber : subscribersList) {
-      if (subscriber.getSubscriberTaskHandle() == nullptr) {
-        subscriber.Init(taskToSubscribe);
+      if (subscriber.getSubscriberQueueHandle() == nullptr) {
+        subscriber.Init(queueToSubscribe);
         return true;
       }
     }
@@ -59,9 +59,9 @@ class Publisher {
   }
 
   // unsubscribe
-  bool Unsubscribe(Task* taskToUnsubscribe) {
+  bool Unsubscribe(Queue* queueToUnsubscribe) {
     for (Subscriber& subscriber : subscribersList) {
-      if (subscriber.getSubscriberTaskHandle() == taskToUnsubscribe) {
+      if (subscriber.getSubscriberQueueHandle() == queueToUnsubscribe) {
         subscriber.Delete();
         return true;
       }
@@ -74,7 +74,7 @@ class Publisher {
   // publish
   void Publish(T* dataToPublish) {
     for (const Subscriber& subscriber : subscribersList) {
-      if (subscriber.getSubscriberTaskHandle() != nullptr) {
+      if (subscriber.getSubscriberQueueHandle() != nullptr) {
         // create command
         uint16_t messageType = static_cast<uint16_t>(publisherMessageType);
 

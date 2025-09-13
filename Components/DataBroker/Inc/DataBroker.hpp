@@ -60,15 +60,15 @@ class DataBroker {
 
   /**
    * @brief Subscribe to a certain type of data in the system
-   * @param taskToSubscribe Task Handle of the task that will receive
+   * @param queueToSubscribe Queue Handle of the queue that will receive
    *        and handle the data. (i.e. -> Subscribe<T>(this))
    */
   template <typename T>
-  static void Subscribe(Task* taskToSubscribe) {
+  static void Subscribe(Queue* queueToSubscribe) {
     if (subscriberListLock.Lock(SUBSCRIBER_LIST_MUTEX_TIMEOUT)) {
       Publisher<T>* publisher = getPublisher<T>();
       if (publisher != nullptr) {
-        publisher->Subscribe(taskToSubscribe);
+        publisher->Subscribe(queueToSubscribe);
       } else {
         SOAR_ASSERT("Data Publisher not found \n");
       }
@@ -82,15 +82,15 @@ class DataBroker {
 
   /**
    * @brief Unsubscribe to a certain type of data in the system
-   * @param taskToUnsubscribe Task Handle of the task that will stop
+   * @param queueToUnsubscribe Queue Handle of the queue that will stop
    *        receiving the data. (i.e. -> Unsubscribe<T>(this))
    */
   template <typename T>
-  static void Unsubscribe(Task* taskToUnsubscribe) {
+  static void Unsubscribe(Queue* queueToUnsubscribe) {
     if (subscriberListLock.Lock(SUBSCRIBER_LIST_MUTEX_TIMEOUT)) {
       Publisher<T>* publisher = getPublisher<T>();
       if (publisher != nullptr) {
-        publisher->Unsubscribe(taskToUnsubscribe);
+        publisher->Unsubscribe(queueToUnsubscribe);
       } else {
         SOAR_ASSERT("Data Publisher not found \n");
       }
@@ -104,7 +104,7 @@ class DataBroker {
 
   /**
    * @brief This API can be used to offload the data from the databroker message
-   *        into a new object in the receiving task
+   *        into a new object in the receiving queue
    * @param cm the Command object that contains the databroker message
    */
   template <typename T>
@@ -188,6 +188,8 @@ class DataBroker {
   // List of Publishers
   inline static Publisher<IMUData> IMU_Data_publisher{DataBrokerMessageTypes::IMU_DATA};
   inline static Publisher<ThermocoupleData> Thermocouple_Data_publisher{DataBrokerMessageTypes::THERMOCOUPLE_DATA};
+  inline static Publisher<PressureData> Data_publisher{DataBrokerMessageTypes::TEST_DATA};
+
 };
 /************************************
  * FUNCTION DECLARATIONS

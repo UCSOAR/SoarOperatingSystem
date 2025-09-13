@@ -29,26 +29,25 @@
  ************************************/
 class Subscriber {
  public:
-  void Init(Task* subscriberTaskHandle) {
-    if (taskHandle != nullptr || taskQueue != nullptr) {
+  void Init(Queue* subscriberQueueHandle) {
+    if (taskQueue != nullptr) {
       SOAR_ASSERT(false, "You cannot overwrite a subscriber");
       return;
     }
-    taskHandle = subscriberTaskHandle;
-    taskQueue = taskHandle->GetEventQueue();
+
+    taskQueue = subscriberQueueHandle;
   }
 
   void Delete() {
-    taskHandle = nullptr;
+
     taskQueue = nullptr;
   }
 
-  inline const Task* getSubscriberTaskHandle() const { return taskHandle; }
 
   inline Queue* getSubscriberQueueHandle() const { return taskQueue; }
 
  private:
-  Task* taskHandle = nullptr;
+
   Queue* taskQueue = nullptr;
 };
 
