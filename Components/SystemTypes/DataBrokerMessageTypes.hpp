@@ -51,6 +51,10 @@ inline std::string ToString(DataBrokerMessageTypes messageType) {
       std::string type{"THERMOCOUPLE_DATA"};
       return type;
     }
+    case DataBrokerMessageTypes::PRESSURE_DATA: {
+         std::string type{"PRESSURE_DATA"};
+         return type;
+       }
 
     case DataBrokerMessageTypes::INVALID:
       [[fallthrough]];

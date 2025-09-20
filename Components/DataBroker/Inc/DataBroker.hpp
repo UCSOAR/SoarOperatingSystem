@@ -188,7 +188,7 @@ class DataBroker {
   // List of Publishers
   inline static Publisher<IMUData> IMU_Data_publisher{DataBrokerMessageTypes::IMU_DATA};
   inline static Publisher<ThermocoupleData> Thermocouple_Data_publisher{DataBrokerMessageTypes::THERMOCOUPLE_DATA};
-  inline static Publisher<PressureData> Data_publisher{DataBrokerMessageTypes::TEST_DATA};
+  inline static Publisher<PressureData> Data_publisher{DataBrokerMessageTypes::PRESSURE_DATA};
 
 };
 /************************************
