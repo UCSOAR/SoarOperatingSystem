@@ -1,5 +1,5 @@
-#ifndef CUBE_UART_DRIVER_HPP_
-#define CUBE_UART_DRIVER_HPP_
+#ifndef SOAR_UART_DRIVER_HPP_
+#define SOAR_UART_DRIVER_HPP_
 /**
  ******************************************************************************
  * File Name          : UARTDriver.hpp
@@ -10,8 +10,24 @@
 */
 
 /* Includes ------------------------------------------------------------------*/
-#include "SystemDefines.hpp"
+//#include "SystemDefines.hpp"
 #include "cmsis_os.h"
+#include "stm32h7xx_ll_usart.h"
+#include "stm32h7xx_hal_rcc.h"
+#include "stm32h7xx_ll_dma.h"
+
+
+class UARTDriver;
+namespace Driver {
+
+	extern UARTDriver usart2;
+}
+
+/* UART Driver Aliases ------------------------------------------------------------------*/
+namespace UART {
+
+	constexpr UARTDriver* Debug = &Driver::usart2;
+}
 
 /* UART Receiver Base Class ------------------------------------------------------------------*/
 /**
@@ -24,6 +40,8 @@ class UARTReceiverBase
 public:
 	virtual void InterruptRxData(uint8_t errors) = 0;
 };
+
+
 
 
 /* UART Driver Class ------------------------------------------------------------------*/

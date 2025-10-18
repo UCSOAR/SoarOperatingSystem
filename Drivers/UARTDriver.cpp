@@ -14,6 +14,11 @@
 */
 #include "UARTDriver.hpp"
 
+
+namespace Driver {
+
+    UARTDriver usart2(USART2);
+}
 /**
  * @brief Transmits data via polling
  * @param data The data to transmit
