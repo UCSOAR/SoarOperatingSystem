@@ -26,12 +26,17 @@
  * @param accelY The acceleration in the Y axis relative to the sensor
  * @param accelZ The acceleration in the Z axis relative to the sensor
  */
-struct IMUData {
+struct AccelerometerData {
   uint32_t accelX;
   uint32_t accelY;
   uint32_t accelZ;
 };
 
+struct GyroscopeData {
+  uint32_t gyroX;
+  uint32_t gyroY;
+  uint32_t gyroZ;
+};
 /**
  * @param Temperature. Can be any where from -2147483648 to 2147483647
  */
@@ -39,6 +44,7 @@ struct ThermocoupleData {
   int32_t temperature;
 };
 
+<<<<<<< Updated upstream
 
 
 struct PressureData {
@@ -46,5 +52,14 @@ struct PressureData {
 };
 
 
+=======
+struct PressureData {
+  int32_t pressure;
+};
+
+struct IMUData{
+	uint32_t imu_stuff;
+};
+>>>>>>> Stashed changes
 
 #endif /* SENSORDATATYPES_HPP_ */

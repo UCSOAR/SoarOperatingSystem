@@ -175,21 +175,30 @@ class DataBroker {
    * @brief Returns the correct Publisher object for a template type
    */
   template <typename T>
-  static constexpr auto getPublisher(void) {
-    if constexpr (matchType<T, IMUData>()) {
-      return &IMU_Data_publisher;
+  static constexpr Publisher<T>* getPublisher(void) {
+    if constexpr (matchType<T, AccelerometerData>()) {
+      return &Accelerometer_Data_publisher;
     } else if constexpr (matchType<T, ThermocoupleData>()) {
       return &Thermocouple_Data_publisher;
-    } else {
+    } else if constexpr (matchType<T, PressureData>()) {
+    	return &Pressure_Data_publisher;
+    }else {
       SOAR_ASSERT(false, "This publisher type does not exist, you must create it");
+      return nullptr;
     }
   }
 
   // List of Publishers
-  inline static Publisher<IMUData> IMU_Data_publisher{DataBrokerMessageTypes::IMU_DATA};
+  inline static Publisher<AccelerometerData> Accelerometer_Data_publisher{DataBrokerMessageTypes::ACCELEROMETER_DATA};
+  inline static Publisher<PressureData> Pressure_Data_publisher{DataBrokerMessageTypes::PRESSURE_DATA};
   inline static Publisher<ThermocoupleData> Thermocouple_Data_publisher{DataBrokerMessageTypes::THERMOCOUPLE_DATA};
+<<<<<<< Updated upstream
   inline static Publisher<PressureData> Data_publisher{DataBrokerMessageTypes::PRESSURE_DATA};
 
+=======
+  inline static Publisher<GyroscopeData> Gyroscope_Data_publisher{DataBrokerMessageTypes::GYROSCOPE_DATA};
+  inline static Publisher<IMUData> IMU_Data_publisher{DataBrokerMessageTypes::IMU_DATA};
+>>>>>>> Stashed changes
 };
 /************************************
  * FUNCTION DECLARATIONS
