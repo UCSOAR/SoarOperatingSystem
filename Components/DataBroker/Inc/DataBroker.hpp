@@ -178,16 +178,15 @@ class DataBroker {
   static constexpr auto getPublisher(void) {
     if constexpr (matchType<T, IMUData>()) {
       return &IMU_Data_publisher;
-    } else if constexpr (matchType<T, ThermocoupleData>()) {
-      return &Thermocouple_Data_publisher;
     } else {
       SOAR_ASSERT(false, "This publisher type does not exist, you must create it");
+      return (Publisher<T>*)nullptr;
     }
   }
 
   // List of Publishers
   inline static Publisher<IMUData> IMU_Data_publisher{DataBrokerMessageTypes::IMU_DATA};
-  inline static Publisher<ThermocoupleData> Thermocouple_Data_publisher{DataBrokerMessageTypes::THERMOCOUPLE_DATA};
+
 };
 /************************************
  * FUNCTION DECLARATIONS

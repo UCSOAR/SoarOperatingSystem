@@ -39,4 +39,20 @@ struct ThermocoupleData {
   int32_t temperature;
 };
 
+struct GPSData{
+	uint32_t gps;
+};
+
+struct BaroData{
+	uint32_t baro;
+};
+
+struct FilterData{
+	uint32_t filter;
+};
+
+struct MagData{
+	uint32_t mag;
+};
+
 #endif /* SENSORDATATYPES_HPP_ */
