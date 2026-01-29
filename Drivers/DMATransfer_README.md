@@ -12,7 +12,7 @@ This driver also manages **Cache Coherence** for Cortex-M7 (STM32H7) and Cortex-
 
 ## Features
 
-* **Unified Interface:** Uses C++ `if constexpr` templates to detect the handle type (`SPI_HandleTypeDef`, `I2C_HandleTypeDef`, `UART_HandleTypeDef`) and call the matching HAL function.
+* **Unified Interface:** Uses C++ `if constexpr` templates to detect the handle type (`SPI_HandleTypeDef`, `I2C_HandleTypeDef`, `UART_HandleTypeDef`, `QSPI_HandleTypeDef`) and call the matching HAL function.
 * **Cache Management:** Automatically calls `SCB_CleanDCache_by_Addr` and `SCB_InvalidateDCache_by_Addr` if the architecture requires it (H7/G4).
 * **Zero-Overhead:** Being header-only template library, the compiler optimizes unused branches, resulting in no runtime performance penalty compared to raw HAL calls.
 
@@ -59,8 +59,14 @@ DMAControl::Transfer(&hi2c1, (0x68 << 1), nullptr, rxBuffer, 10);
 uint8_t txBuf[] = {0xCA, 0xFE};
 uint8_t rxBuf[2];
 
-// Full Duplex Transfer
+// Full Duplex Transfer (Simultaneous Tx/Rx)
 DMAControl::Transfer(&hspi1, 0, txBuf, rxBuf, 2);
+
+// Simplex Transfer (Transmit Only)
+DMAControl::Transfer(&hspi1, 0, txBuf, nullptr, 2);
+
+// Simplex Transfer (Receive Only)
+DMAControl::Transfer(&hspi1, 0, nullptr, rxBuf, 2);
 ```
 
 ### UART
@@ -75,7 +81,16 @@ uint8_t inputBuf[64];
 DMAControl::Transfer(&huart1, 0, nullptr, inputBuf, 64);
 ```
 
-### NOTES
+### QSPI
 
-* This Driver Requires HAL handles. It is not directly compatible with LL pointers without a wrapper.
-* DMA channels should be enabled and linked to peripherals in main.c / msp.c before calling this function.
+*Note: For QSPI, the Command/Address phase must be sent first (usually via blocking `HAL_QSPI_Command`), followed by this DMA Data Transfer.*
+
+```cpp
+// Transmit Data to Flash (Write)
+// Arguments: Handle, 0 (Address ignored), TxBuffer, nullptr, Size
+DMAControl::Transfer(&hqspi, 0, txBuffer, nullptr, 256);
+
+// Receive Data from Flash (Read)
+// Arguments: Handle, 0 (Address ignored), nullptr, RxBuffer, Size
+DMAControl::Transfer(&hqspi, 0, nullptr, rxBuffer, 256);
+```
