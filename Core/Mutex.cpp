@@ -18,7 +18,7 @@ Mutex::Mutex()
 {
     rtSemaphoreHandle = xSemaphoreCreateMutex();
 
-    CUBE_ASSERT(rtSemaphoreHandle != NULL, "Semaphore creation failed.");
+    SOAR_ASSERT(rtSemaphoreHandle != NULL, "Semaphore creation failed.");
 }
 
 

@@ -59,7 +59,7 @@ bool Queue::SendToFront(Command& command)
     if (xQueueSendToFront(rtQueueHandle, &command, DEFAULT_QUEUE_SEND_WAIT_TICKS) == pdPASS)
         return true;
 
-    CUBE_PRINT("Could not send data to front of queue!\n");
+    SOAR_PRINT("Could not send data to front of queue!\n");
     command.Reset();
 
     return false;
@@ -79,7 +79,7 @@ bool Queue::Send(Command& command, bool reportFull)
     if (xQueueSend(rtQueueHandle, &command, DEFAULT_QUEUE_SEND_WAIT_TICKS) == pdPASS)
         return true;
 
-    if (reportFull) CUBE_PRINT("Could not send data to queue!\n");
+    if (reportFull) SOAR_PRINT("Could not send data to queue!\n");
 
     command.Reset();
 

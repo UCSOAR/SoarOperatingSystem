@@ -22,7 +22,7 @@ Timer::Timer()
     // The timer ID is specified as (void *)this to provide a unique ID for each timer object - however this is not necessary for polling timers.
     // The timer is created in the dormant state.
     rtTimerHandle = xTimerCreate("Timer", timerPeriod, pdFALSE, (void *)this, DefaultCallback);
-    CUBE_ASSERT(rtTimerHandle, "Error Occurred, Timer not created");
+    SOAR_ASSERT(rtTimerHandle, "Error Occurred, Timer not created");
     timerState = UNINITIALIZED;
 }
 
@@ -36,7 +36,7 @@ Timer::Timer()
 Timer::Timer(void (*TimerDefaultCallback_t)( TimerHandle_t xTimer ))
 {
     rtTimerHandle = xTimerCreate("Timer", timerPeriod, pdFALSE, (void *)this, TimerDefaultCallback_t);
-    CUBE_ASSERT(rtTimerHandle, "Error Occurred, Timer not created");
+    SOAR_ASSERT(rtTimerHandle, "Error Occurred, Timer not created");
     timerState = UNINITIALIZED;
 }
 
@@ -47,10 +47,10 @@ Timer::Timer(void (*TimerDefaultCallback_t)( TimerHandle_t xTimer ))
 Timer::~Timer()
 {
     if (xTimerDelete(rtTimerHandle, DEFAULT_TIMER_COMMAND_WAIT_PERIOD*2) == pdPASS) {
-        CUBE_PRINT("Timer has been deleted \n\n");
+        SOAR_PRINT("Timer has been deleted \n\n");
     }
     else {
-        CUBE_PRINT("WARNING, FAILED TO DELETE TIMER! \n\n");
+        SOAR_PRINT("WARNING, FAILED TO DELETE TIMER! \n\n");
     }
 }
 
@@ -142,7 +142,7 @@ bool Timer::Stop()
 bool Timer::ResetTimer()
 {
     if (timerState == UNINITIALIZED) {
-        CUBE_PRINT("Cannot Restart as timer has not yet started!");
+        SOAR_PRINT("Cannot Restart as timer has not yet started!");
         return false;
     }
     if (ChangePeriodMs(timerPeriod) == true) {
@@ -158,7 +158,7 @@ bool Timer::ResetTimer()
 bool Timer::ResetTimerAndStart()
 {
     if (timerState == UNINITIALIZED) {
-        CUBE_PRINT("Cannot Restart as timer has not yet started!");
+        SOAR_PRINT("Cannot Restart as timer has not yet started!");
         return false;
     }
     if (ChangePeriodMsAndStart(timerPeriod) == true) {
@@ -223,12 +223,12 @@ void Timer::SetAutoReload(bool setReloadOn)
     if (setReloadOn == true){
         vTimerSetReloadMode(rtTimerHandle, pdTRUE);
         //Testing purposes
-        CUBE_PRINT("Set to Auto Reload\n\n");
+        SOAR_PRINT("Set to Auto Reload\n\n");
     }
     if (setReloadOn == false){
         vTimerSetReloadMode(rtTimerHandle, pdFALSE);
         //Testing purposes
-        CUBE_PRINT("Set to One Shot\n\n");
+        SOAR_PRINT("Set to One Shot\n\n");
     }
 }
 

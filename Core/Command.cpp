@@ -100,7 +100,7 @@ uint8_t* Command::AllocateData(uint16_t dataSize)
         statAllocationCounter += 1;
 
         //TODO: May want to print out whenever we have an imbalance in statAllocationCounter by more than ~5 or so.
-        CUBE_ASSERT(statAllocationCounter < MAX_NUMBER_OF_COMMAND_ALLOCATIONS);
+        SOAR_ASSERT(statAllocationCounter < MAX_NUMBER_OF_COMMAND_ALLOCATIONS);
         return this->data;
     }
     return nullptr;

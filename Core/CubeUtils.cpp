@@ -170,14 +170,14 @@ int32_t Utils::ExtractIntParameter(const char* msg, uint16_t identifierLen)
 {
     // Handle a command with an int parameter at the end
     if (static_cast<uint16_t>(strlen(msg)) < identifierLen+1) {
-        CUBE_PRINT("Int parameter insufficient length\r\n");
+        SOAR_PRINT("Int parameter insufficient length\r\n");
         return ERRVAL;
     }
     
     // Extract the value and attempt conversion to integer
     const int32_t val = Utils::StringToLong(&msg[identifierLen]);
     if (val == ERRVAL) {
-        CUBE_PRINT("Int parameter invalid value\r\n");
+        SOAR_PRINT("Int parameter invalid value\r\n");
     }
 
     return val;

@@ -50,7 +50,7 @@ something like cpp_USART5_IRQHandler(), for example:
  *  RunInterface.cpp
  */
 
-#include "main_system.hpp"
+#include "main_avionics.hpp"
 #include "UARTDriver.hpp"
 
 extern "C" {

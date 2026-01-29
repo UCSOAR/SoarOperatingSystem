@@ -51,11 +51,11 @@ constexpr uint16_t ASSERT_TAKE_MAX_TIME_MS = 500;        // Max time in ms to ta
 
 // Assert macro, use this for checking all possible program errors eg. malloc success etc. supports a custom message in printf format
 // This is our version of the stm32f4xx_hal_conf.h 'assert_param' macro with support for optional messages
-// Example Usage: CUBE_ASSERT(ptr != 0, "Pointer on loop index %d is null!", index);
-#define CUBE_ASSERT(expr, ...) ((expr) ? (void)0U : cube_assert_debug(false, (const char *)__FILE__, __LINE__, ##__VA_ARGS__))
+// Example Usage: SOAR_ASSERT(ptr != 0, "Pointer on loop index %d is null!", index);
+#define SOAR_ASSERT(expr, ...) ((expr) ? (void)0U : cube_assert_debug(false, (const char *)__FILE__, __LINE__, ##__VA_ARGS__))
 
-// CUBE_PRINT macro, acts as an interface to the print function which sends a packet to the UART Task to print data
-#define CUBE_PRINT(str, ...) (cube_print(str, ##__VA_ARGS__))
+// SOAR_PRINT macro, acts as an interface to the print function which sends a packet to the UART Task to print data
+#define SOAR_PRINT(str, ...) (cube_print(str, ##__VA_ARGS__))
 
 /**
  * @brief Malloc inline function, wraps malloc for multi-platform support, asserts successful allocation
@@ -68,7 +68,7 @@ inline uint8_t* cube_malloc(uint32_t size) {
 #else
     uint8_t* ret = (uint8_t*)pvPortMalloc(size);
 #endif
-    CUBE_ASSERT(ret, "cube_malloc failed");
+    SOAR_ASSERT(ret, "cube_malloc failed");
     return ret;
 }
 

@@ -13,28 +13,6 @@
 #include "SystemDefines.hpp"
 #include "cmsis_os.h"
 
-// Example code on how to declare UART Driver Instances in the HPP
-#if EXAMPLE_CODE
-/* UART Driver Instances ------------------------------------------------------------------*/
-class UARTDriver;
-
-namespace Driver {
-	extern UARTDriver uart1;
-	extern UARTDriver uart2;
-	extern UARTDriver uart3;
-	extern UARTDriver uart5;
-}
-
-/* UART Driver Aliases ------------------------------------------------------------------*/
-namespace UART {
-	constexpr UARTDriver* Umbilical_RCU = &Driver::uart1;
-	constexpr UARTDriver* Radio = &Driver::uart2;
-	constexpr UARTDriver* Conduit_PBB = &Driver::uart3;
-	// UART 4 (GPS) uses HAL
-	constexpr UARTDriver* Debug = &Driver::uart5;
-}
-#endif
-
 /* UART Receiver Base Class ------------------------------------------------------------------*/
 /**
  * @brief Any classes that are expected to receive using a UART driver

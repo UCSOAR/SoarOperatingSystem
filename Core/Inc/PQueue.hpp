@@ -107,7 +107,7 @@ private:
         bool operator<(const PriorityQueueItem& other) const {
             if(priority_ == other.priority_) {
 #ifdef PQUEUE_ENABLE_SEQN_CIRCULAR_CHECK
-                CUBE_ASSERT(pSeqN_ != nullptr, "PQueue null seqn pointer");
+                SOAR_ASSERT(pSeqN_ != nullptr, "PQueue null seqn pointer");
                 seq_t seqN = *pSeqN_;
                 if((order_ < seqN && other.order_ < seqN) ||
                    (order_ >= seqN && other.order_ >= seqN)) {
@@ -267,10 +267,10 @@ bool PQueue<T, SIZE>::ReceiveWait(T& item) {
 template<typename T, const size_t SIZE>
 void PQueue<T, SIZE>::HandleConsistencyError() {
     // Print an error
-    CUBE_PRINT("ERROR: PQueue Data Consistency\r\n");
+    SOAR_PRINT("ERROR: PQueue Data Consistency\r\n");
 
     // Count the error, if it exceeds the max, we must reset the system
-    CUBE_ASSERT(++errCount_ > PQUEUE_ERROR_COUNT_MAX,
+    SOAR_ASSERT(++errCount_ > PQUEUE_ERROR_COUNT_MAX,
 			"PQueue data consistency faults exceeded limits");
 
     // Pop/Add items to the RT queue until it matches that of the priority queue
