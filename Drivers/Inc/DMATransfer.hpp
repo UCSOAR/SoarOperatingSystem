@@ -64,7 +64,7 @@ public:
                 return HAL_I2C_Master_Receive_DMA(handle, devAddr, rxData, size);
             }
         }
-        // ===   UART Logic   ===
+            // ===   UART Logic   ===
         if constexpr (std::is_same_v<HandleType, UART_HandleTypeDef>) {
             // Transmit
             if (txData != nullptr && rxData == nullptr) {
@@ -77,7 +77,8 @@ public:
         }
 
 
-        // ===   QSPI Logic   ===
+            // ===   QSPI Logic   ===
+
         if constexpr (std::is_same_v<HandleType, QSPI_HandleTypeDef>) {
             // Transmit (To Flash)
             if (txData != nullptr && rxData == nullptr) {

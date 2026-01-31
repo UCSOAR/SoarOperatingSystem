@@ -94,7 +94,3 @@ DMAControl::Transfer(&hqspi, 0, txBuffer, nullptr, 256);
 // Arguments: Handle, 0 (Address ignored), nullptr, RxBuffer, Size
 DMAControl::Transfer(&hqspi, 0, nullptr, rxBuffer, 256);
 ```
-### NOTES
-
-* This Driver Requires HAL handles. It is not directly compatible with LL pointers without a wrapper.
-* DMA channels should be enabled and linked to peripherals in main.c / msp.c before calling this function.
