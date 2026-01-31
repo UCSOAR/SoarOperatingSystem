@@ -29,5 +29,9 @@
 /************************************
  * FUNCTION DECLARATIONS
  ************************************/
-void TestFunctions();
+void ProfileSystem();
+void PrintTaskList();
+void PrintHeap();
+void PrintStack();
+void PrintCPUStats();
 #endif /* PROFILER_HPP_ */
