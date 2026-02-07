@@ -16,6 +16,7 @@ extern bool profileSystem;
 #include "Task.hpp"
 #include "SystemDefines.hpp"
 #include <vector>
+
 /************************************
  * MACROS AND DEFINES
  ************************************/
@@ -24,7 +25,7 @@ extern bool profileSystem;  // profiling status bool
 // struct to store task data
 struct TaskProfile {
     char name[configMAX_TASK_NAME_LEN];
-    char state;
+    char state[10];
     int priority;
     int stackRemaining;
     char cpuPercent[8];

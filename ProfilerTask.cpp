@@ -90,7 +90,22 @@ void ProfilerTask::CollectTaskList(std::vector<TaskProfile>& Profiles) {
 
             // if name, state, priority, stack, and num successfully read populate profile object
             strncpy(profile.name, name, sizeof(profile.name));
-            profile.state = state;
+
+            // convert state to human readable format
+            std::string readableState;
+            switch (state) {
+                case 'R': readableState = "Ready"; 
+                break;
+                case 'B': readableState = "Blocked"; 
+                break;
+                case 'S': readableState = "Suspended"; 
+                break;
+                case 'X': readableState = "Executing"; 
+                break;
+                default:  readableState = "Unknown"; 
+                break;
+            }
+            strncpy(profile.state, readableState.c_str(), sizeof(profile.state));
             profile.priority = priority;
             profile.stackRemaining = stack;
             strcpy(profile.cpuPercent, "?");
@@ -131,43 +146,13 @@ void ProfilerTask::CollectCPUStats(std::vector<TaskProfile>& Profiles) {
 }
 
 
-
 void ProfilerTask::DisplayTable(std::vector<TaskProfile>& Profiles) {
-    // header
-    SOAR_PRINT("\r\nSystem Profile\r\n");
-    SOAR_PRINT("================================================================================\r\n");
+    // print profile message for tasks
+    SOAR_PRINT("Task Name, Task State, Task Priority, Stack High Water Mark (words), Task CPU Usage\r\n\n");
 
-    // print task names
-    SOAR_PRINT("%-12s", "Metric\\Task");
-    for (auto& p : Profiles)
-        SOAR_PRINT("| %-10s ", p.name);
-    SOAR_PRINT("\r\n");
-    SOAR_PRINT("--------------------------------------------------------------------------------\r\n");
-
-    // print task state
-    SOAR_PRINT("%-12s", "State");
-    for (auto& p : Profiles)
-        SOAR_PRINT("| %-10c ", p.state);
-    SOAR_PRINT("\r\n");
-
-    // print task priority
-    SOAR_PRINT("%-12s", "Priority");
-    for (auto& p : Profiles)
-        SOAR_PRINT("| %-10d ", p.priority);
-    SOAR_PRINT("\r\n");
-
-    // print task high water mark (stack remaining/closer to 0 means stack is running out)
-    SOAR_PRINT("%-12s", "Stack Remain");
-    for (auto& p : Profiles)
-        SOAR_PRINT("| %-10d ", p.stackRemaining);
-    SOAR_PRINT("\r\n");
-
-    // print task cpu time percent use
-    SOAR_PRINT("%-12s", "CPU %");
-    for (auto& p : Profiles)
-        SOAR_PRINT("| %-10s ", p.cpuPercent);
-    SOAR_PRINT("\r\n");
-    SOAR_PRINT("================================================================================\r\n");
+    for (auto& p : Profiles) {
+        SOAR_PRINT("%s, %s, %d, %d, %s\r\n", p.name, p.state, p.priority, p.stackRemaining, p.cpuPercent);
+    }
 }
 
 
@@ -184,7 +169,6 @@ void ProfilerTask::ProfileSystem() {
     DisplayTable(Profiles);
 
     // display heap stats
-    SOAR_PRINT("\r\nFree Heap: %lu bytes | Min Ever Free Heap: %lu bytes\r\n", xPortGetFreeHeapSize(),
-            xPortGetMinimumEverFreeHeapSize());
-
+    SOAR_PRINT("\r\nFree Heap (bytes), Min Ever Free Heap (bytes)");
+    SOAR_PRINT("\r\n%lu, %lu", xPortGetFreeHeapSize(), xPortGetMinimumEverFreeHeapSize());
 }
