@@ -166,9 +166,9 @@ Flip ```configGENERATE_RUN_TIME_STATS``` to 1 to enable profiling, and 0 to disa
 ### 2. Add profiling commands to ```HandleDebugMessage```:
 ```
 #if (configGENERATE_RUN_TIME_STATS == 1)  // enable profiling commands if profiling enabled
-  else if (strcmp(msg, "top") == 0) {
+  else if (strcmp(msg, "profile") == 0) {
     profileSystem = true;
-  } else if (strcmp(msg, "stoptop") == 0) {
+  } else if (strcmp(msg, "stop profiling") == 0) {
     profileSystem = false;
   } 
 #endif
