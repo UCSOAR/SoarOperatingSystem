@@ -53,7 +53,7 @@ void cube_print(const char* str, ...)
     else
     {
         // Print out that we could not acquire the VA list mutex
-        SOAR_ASSERT(false, "Could not acquire VA_LIST mutex");
+        CUBE_ASSERT(false, "Could not acquire VA_LIST mutex");
     }
 #endif
 }

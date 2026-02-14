@@ -36,8 +36,19 @@ public:
 
         // ===   SPI Logic   ===
         if constexpr (std::is_same_v<HandleType, SPI_HandleTypeDef>) {
-            // SPI Transfer (Full-Duplex)
-            return HAL_SPI_TransmitReceive_DMA(handle, txData, rxData, size);
+            
+            // Transmit Only (Simplex)
+            if (txData != nullptr && rxData == nullptr){
+                return HAL_SPI_Transmit_DMA(handle, txData, size);
+            }
+            // Receive Only (Simplex)
+            if (txData == nullptr && rxData != nullptr){
+                return HAL_SPI_Receive_DMA(handle, rxData, size);
+            }
+            // Full Duplex
+            if (txData != nullptr && rxData != nullptr){
+                return HAL_SPI_TransmitReceive_DMA(handle, txData, rxData, size);
+            }
         }
 
         // ===   I2C Logic   ===
@@ -64,6 +75,28 @@ public:
                 return HAL_UART_Receive_DMA(handle, rxData, size);
             }
         }
+
+
+            // ===   QSPI Logic   ===
+
+        if constexpr (std::is_same_v<HandleType, QSPI_HandleTypeDef>) {
+            // Transmit (To Flash)
+            if (txData != nullptr && rxData == nullptr) {
+                return HAL_QSPI_Transmit_DMA(handle, txData);
+            }
+            // Receive (From Flash)
+            else if (rxData != nullptr && txData == nullptr) {
+                return HAL_QSPI_Receive_DMA(handle, rxData);
+            }
+        }
+
+        // Handle type not supported
+        #ifdef SOAR_DEBUG {
+        SOAR_PRINT("DMAControl::Transfer - Unsupported handle type\n");
+        }
+        #endif
+
+
         return HAL_ERROR;
     }
 };
