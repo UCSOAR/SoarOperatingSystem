@@ -46,10 +46,6 @@ struct IMUData {
 };
 
 
-struct GPSData{
-	uint32_t gps;
-};
-
 
 struct BaroData{
 	int16_t temp;
@@ -100,6 +96,6 @@ typedef struct
     AltitudeType    antennaAltitude_;
     AltitudeType    geoidAltitude_;
     AltitudeType    totalAltitude_;
-} GpsData;
+} GPSData;
 
 #endif /* SENSORDATATYPES_HPP_ */
