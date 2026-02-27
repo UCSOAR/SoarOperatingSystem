@@ -58,7 +58,14 @@ struct BaroData{
 };
 
 struct FilterData{
-	uint32_t filter;
+	uint32_t alt;
+	uint32_t velo;
+	uint32_t accel;
+
+	uint32_t altPredicted;
+	uint32_t veloPredicted;
+	uint32_t accelPredicted;
+	uint32_t timePredicted;
 };
 
 struct MagData {

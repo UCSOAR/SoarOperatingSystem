@@ -135,3 +135,86 @@ An example project utilizing Cube++ with basic SOAR_PRINT support, in addition t
 <img src="https://github.com/user-attachments/assets/2a83056c-2803-40c3-85aa-41dda7d9c48e" width="450">
 
 
+# System Profiling
+This system includes a task to profile FreeRTOS tasks using various APIs. Profiling requires an external timer. You can enable or disable profiling via a macro. For an example implementation, see the [Profiler branch](https://github.com/UCSOAR/H743VIT6TemplateRepository/tree/Christy/Profiler) in the H743VIT6TemplateRepository.
+
+
+## 1. Enable Profiling in FreeRTOSConfig.h
+
+Open `FreeRTOSConfig.h` and add the following in the "/* USER CODE BEGIN Defines */" section:
+```
+// enable definitions for profiler
+#define configGENERATE_RUN_TIME_STATS 1 // 1 = enable profiling, 0 = disable profiling
+
+#if (configGENERATE_RUN_TIME_STATS == 1)
+#define configUSE_TRACE_FACILITY  1
+#define configUSE_STATS_FORMATTING_FUNCTIONS  1
+
+#define configUSE_STATS_FORMATTING_FUNCTIONS  1
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()  StartStatsTimer()
+#define portGET_RUN_TIME_COUNTER_VALUE()  GetStatsTimerCount()
+
+#define INCLUDE_uxTaskGetStackHighWaterMark 1
+
+#define INCLUDE_xTaskGetHandle  1
+#endif
+```
+Flip ```configGENERATE_RUN_TIME_STATS``` to 1 to enable profiling, and 0 to disable it.
+
+## 2. Update ```DebugTask.cpp```
+### 1. Import the profiler header: ```#include "ProfilerTask.hpp"```
+### 2. Add profiling commands to ```HandleDebugMessage```:
+```
+#if (configGENERATE_RUN_TIME_STATS == 1)  // enable profiling commands if profiling enabled
+  else if (strcmp(msg, "profile") == 0) {
+    profileSystem = true;
+  } else if (strcmp(msg, "stop profiling") == 0) {
+    profileSystem = false;
+  } 
+#endif
+```
+
+## 3. Initialize the Profiler Task in main_system.cpp
+### 1. Import the profiler header: ```#include "ProfilerTask.hpp"```
+
+### 2. In the ```run_main``` method, add the following:
+```
+#if (configGENERATE_RUN_TIME_STATS == 1)
+ProfilerTask::Inst().InitTask();
+#endif
+```
+
+## 4. Define Profiler Task Parameters
+### 1. in ```SystemDefines.hpp```, include a section for the profiler task:
+```
+// Profiler task
+constexpr uint8_t TASK_PROFILER_PRIORITY = 3;  // Priority of the profiler task
+constexpr uint8_t TASK_PROFILER_QUEUE_DEPTH_OBJS =10;  // Size of the profiler task queue
+constexpr uint16_t TASK_PROFILER_STACK_DEPTH_WORDS =512;  // Size of the profiler task stack
+```
+## 5. Configure the Timer
+1. In the ioc file, pick an unused timer and change the clock source to "Internal Clock". 
+2. Select a prescalar value to configure the timer to be 10-20x faster than configTICK_RATE_HZ (normally set to 1000, can be found in FreeRTOSConfig.h). The prescalar you select depends on your system clock.
+
+## 6. Conditionally Initialize Timer in ```main.c```
+### 1. Navigate to "USER CODE BEGIN 2", and move the timer initialization call inside a conditional:
+```
+#if (configGENERATE_RUN_TIME_STATS == 1)
+MX_TIM2_Init();		// Replace TIM2 with your selected timer
+#endif
+```
+
+### 2. Then navigate to "USER CODE BEGIN 4" and link the timer to the FreeRTOS API by copying the following:
+```
+#if (configGENERATE_RUN_TIME_STATS == 1)
+void StartStatsTimer(void) {
+    HAL_TIM_Base_Start(&htim2);	// replace htim2 with your selected timer
+}
+
+uint32_t GetStatsTimerCount(void) {
+    return __HAL_TIM_GET_COUNTER(&htim2);	// replace htim2 with your selected timer
+}
+#endif
+```
+
+

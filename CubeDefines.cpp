@@ -119,6 +119,7 @@ void cube_assert_debug(bool condition, const char* file, const uint16_t line, co
 
 #endif
 
+    // we should NOT reset on a flight!
     HAL_NVIC_SystemReset();
 
     // We should not reach this code, but if we do, we should resume the scheduler
