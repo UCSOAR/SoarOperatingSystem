@@ -68,9 +68,9 @@ struct MagData {
     uint32_t rawX;
     uint32_t rawY;
     uint32_t rawZ;
-    float scaledX;
-    float scaledY;
-    float scaledZ;
+    int32_t scaledX;
+    int32_t scaledY;
+    int32_t scaledZ;
 };
 
 #define NMEA_MAX_LENGTH 82
