@@ -63,14 +63,20 @@ struct FilterData{
 	uint32_t accelPredicted;
 	uint32_t timePredicted;
 };
+struct MagDriverData{
+	uint32_t rawX;
+	uint32_t rawY;
+	uint32_t rawZ;
+	int32_t scaledX;
+	int32_t scaledY;
+	int32_t scaledZ;
+};
+
 
 struct MagData {
-    uint32_t rawX;
-    uint32_t rawY;
-    uint32_t rawZ;
-    int32_t scaledX;
-    int32_t scaledY;
-    int32_t scaledZ;
+    int32_t magX;
+    int32_t magY;
+    int32_t magZ;
 };
 
 #define NMEA_MAX_LENGTH 82
