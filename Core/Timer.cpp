@@ -4,7 +4,7 @@
  * Description        : FreeRTOS Timer Wrapper
  ******************************************************************************
 */
-#include "Core/Inc/Timer.hpp"
+#include "Timer.hpp"
 #include "SystemDefines.hpp"
 #include "FreeRTOS.h"
 #include "timers.h"

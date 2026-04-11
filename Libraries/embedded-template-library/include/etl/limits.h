@@ -31,7 +31,7 @@ SOFTWARE.
 #ifndef ETL_LIMITS_INCLUDED
 #define ETL_LIMITS_INCLUDED
 
-#include <etl/char_traits.h>
+#include <char_traits.h>
 #include "platform.h"
 #include "type_traits.h"
 #include "integral_limits.h"

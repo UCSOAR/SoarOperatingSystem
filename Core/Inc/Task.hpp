@@ -8,7 +8,7 @@
 #define CUBE_INCLUDE_SOAR_CORE_TASK_H
 /* Includes ------------------------------------------------------------------*/
 #include <cmsis_os.h>
-#include <Core/Inc/Queue.hpp>
+#include <Queue.hpp>
 
 /* Macros --------------------------------------------------------------------*/
 

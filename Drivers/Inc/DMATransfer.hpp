@@ -27,7 +27,7 @@ public:
     static HAL_StatusTypeDef Transfer(HandleType* handle, uint16_t devAddr, uint8_t* txData, uint8_t* rxData, uint16_t size) {
         
         // H7 / G4      Cache Management
-        #if defined(STM32H7) || defined(STM32G4)
+        #ifdef STM32G4
             // Cache To RAM before DMA
             if (txData != nullptr) SCB_CleanDCache_by_Addr((uint32_t*)txData, size);
             // Clean Cache to Force read RAM
