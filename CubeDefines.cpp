@@ -34,8 +34,15 @@ void cube_print(const char* str, ...)
         va_start(argument_list, str);
         int16_t buflen = vsnprintf(reinterpret_cast<char*>(str_buffer), sizeof(str_buffer) - 1, str, argument_list);
         va_end(argument_list);
+        uint16_t txLen = 0;
         if (buflen > 0) {
-            str_buffer[buflen] = '\0';
+            // vsnprintf returns the number of chars that *would* have been written,
+            // so clamp to the local buffer capacity before indexing/copying.
+            txLen = static_cast<uint16_t>(buflen);
+            if (txLen >= sizeof(str_buffer)) {
+                txLen = sizeof(str_buffer) - 1;
+            }
+            str_buffer[txLen] = '\0';
         }
 
         // Release the VA List Mutex
@@ -45,7 +52,7 @@ void cube_print(const char* str, ...)
         Command cmd(DATA_COMMAND, (uint16_t)CUBE_TASK_COMMAND_SEND_DEBUG); // Set the UART channel to send data on
 
         //Copy data into the command
-        cmd.CopyDataToCommand(str_buffer, buflen);
+        cmd.CopyDataToCommand(str_buffer, txLen);
 
         //Send this packet off to the UART Task
         CubeTask::Inst().GetEventQueue()->Send(cmd, false);
