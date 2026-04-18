@@ -20,7 +20,10 @@
 
 /* Global Functions ------------------------------------------------------------------*/
 void cube_print(const char* format, ...);
+void cube_print_flash(const char* format, ...);
 void cube_assert_debug(bool condition, const char* file, uint16_t line, const char* str = nullptr, ...);
+bool cube_flash_log_lock_sector();
+bool cube_flash_log_test_locked_write();
 
 /* Global Variable Interfaces ------------------------------------------------------------------*/
 /* All must be extern from CubeDefines.cpp -------------------------------------------------*/
@@ -57,6 +60,8 @@ constexpr uint16_t ASSERT_TAKE_MAX_TIME_MS = 500;        // Max time in ms to ta
 
 // SOAR_PRINT macro, acts as an interface to the print function which sends a packet to the UART Task to print data
 #define SOAR_PRINT(str, ...) (cube_print(str, ##__VA_ARGS__))
+// SOAR_PRINT_FLASH macro prints to terminal and appends the same message into reserved flash log sector
+#define SOAR_PRINT_FLASH(str, ...) (cube_print_flash(str, ##__VA_ARGS__))
 
 /**
  * @brief Malloc inline function, wraps malloc for multi-platform support, asserts successful allocation
