@@ -22,11 +22,23 @@ namespace
 {
 constexpr uint8_t MX66XX_QSPI_SR1_BP_MASK = 0x3CU;
 constexpr uint8_t MX66XX_QSPI_SR1_BP_TOP_1_OVER_64 = 0x04U;
-constexpr uint32_t FLASH_LOG_SECTOR = (FS_TOTAL_SIZE / FS_SECTOR_SIZE) - 2U; // Second-last 4KB sector
+// MX66L1G45G is 1Gbit => 128MiB (0x08000000 bytes). With 4KiB sectors this gives 32768 sectors total.
+constexpr uint32_t FLASH_TOTAL_SECTORS = FS_TOTAL_SIZE / FS_SECTOR_SIZE;
+constexpr uint32_t FLASH_LOG_SECTOR = FLASH_TOTAL_SECTORS - 2U; // Second-last 4KB sector (index 32766)
 
 Mutex gFlashLogMutex;
 uint32_t gFlashLogOffset = 0U;
 bool gFlashLogInitialized = false;
+
+bool FlashLogInitQspi()
+{
+    MX66xxQSPI_ReleaseFromDeepPowerDown();
+    MX66xxQSPI_RSTEN();
+    MX66xxQSPI_RST();
+    MX66xxQSPI_EQIO_1LINE();
+    MX66xxQSPI_EN4B();
+    return MX66xxQSPI_Init();
+}
 
 bool FlashLogEnsureInitialized()
 {
@@ -37,7 +49,7 @@ bool FlashLogEnsureInitialized()
 
     if (mx66xx_qspi.SectorSize == 0U || mx66xx_qspi.SectorCount == 0U)
     {
-        if (!MX66xxQSPI_Init())
+        if (!FlashLogInitQspi())
         {
             return false;
         }
@@ -121,7 +133,7 @@ bool FlashLogAppendBytes(const uint8_t* data, uint32_t len)
     return writeVerified && (writeLen == len);
 }
 
-void CubePrintFromBuffer(const uint8_t* strBuffer, uint16_t txLen)
+void CubePrintFromBuffer(uint8_t* strBuffer, uint16_t txLen)
 {
     Command cmd(DATA_COMMAND, (uint16_t)CUBE_TASK_COMMAND_SEND_DEBUG);
     cmd.CopyDataToCommand(strBuffer, txLen);
