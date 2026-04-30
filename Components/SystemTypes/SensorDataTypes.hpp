@@ -79,6 +79,18 @@ struct MagData {
     int32_t magZ;
 };
 
+struct ThermocoupleData {
+    int32_t temp_centiC_;
+    int32_t coldJunction_centiC_;
+    uint8_t fault_;
+};
+
+struct LoadCellData {
+    int32_t rawCounts_;
+    int32_t force_mN_;
+    int32_t mass_g_;
+};
+
 #define NMEA_MAX_LENGTH 82
 
 typedef struct

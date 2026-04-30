@@ -30,6 +30,8 @@ enum class DataBrokerMessageTypes : uint8_t {
   BARO_DATA,
   FILTER_DATA,
   MAG_DATA,
+  THERMOCOUPLE_DATA,
+  LOADCELL_DATA,
 };
 
 namespace DataBrokerMessageType {
@@ -62,6 +64,14 @@ inline std::string ToString(DataBrokerMessageTypes messageType) {
     }
     case DataBrokerMessageTypes::MAG_DATA: {
           std::string type{"MAG_DATA"};
+          return type;
+        }
+    case DataBrokerMessageTypes::THERMOCOUPLE_DATA: {
+          std::string type{"THERMOCOUPLE_DATA"};
+          return type;
+        }
+    case DataBrokerMessageTypes::LOADCELL_DATA: {
+          std::string type{"LOADCELL_DATA"};
           return type;
         }
     case DataBrokerMessageTypes::INVALID:
