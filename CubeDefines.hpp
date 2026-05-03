@@ -63,13 +63,13 @@ constexpr uint16_t ASSERT_TAKE_MAX_TIME_MS = 500;        // Max time in ms to ta
  * @param size Size of data to malloc in bytes
  * @return Returns the pointer to the allocated data
 */
-inline uint8_t* cube_malloc(uint32_t size) {
+inline uint8_t* soar_malloc(uint32_t size) {
 #ifdef COMPUTER_ENVIRONMENT
     uint8_t* ret = (uint8_t*)malloc(size);
 #else
     uint8_t* ret = (uint8_t*)pvPortMalloc(size);
 #endif
-    SOAR_ASSERT(ret, "cube_malloc failed");
+    SOAR_ASSERT(ret, "soar_malloc failed");
     return ret;
 }
 
@@ -77,7 +77,7 @@ inline uint8_t* cube_malloc(uint32_t size) {
  * @brief Free inline function, wraps free for multi-platform support
  * @param ptr Pointer to the data to free
  */
-inline void cube_free(void* ptr) {
+inline void soar_free(void* ptr) {
 #ifdef COMPUTER_ENVIRONMENT
     free(ptr);
 #else
@@ -87,8 +87,8 @@ inline void cube_free(void* ptr) {
 
 /* Other ------------------------------------------------------------------*/
 // Override the new and delete operator to ensure heap4 is used for dynamic memory allocation
-inline void* operator new(size_t size) { return cube_malloc(size); }
-inline void operator delete(void* ptr) { cube_free(ptr); }
+inline void* operator new(size_t size) { return soar_malloc(size); }
+inline void operator delete(void* ptr) { soar_free(ptr); }
 
 
 #endif // CUBE_PLUSPLUS_CUBE_DEFINES_HPP_
