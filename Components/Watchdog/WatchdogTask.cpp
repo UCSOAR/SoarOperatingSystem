@@ -5,10 +5,11 @@
 #include "SystemDefines.hpp"
 
 
-#if __has_include(<stm32h7xx_it.c>)
-#  include <stm32h7xx_hal.h>
+#if __has_include("stm32h7xx_hal.h")
+#  include "stm32h7xx_hal.h"
 #  define watchdogH7
-#else
+#elif __has_include("stm32g4xx_hal.h")
+#  include "stm32g4xx_hal.h"
 #  define watchdogG4
 #endif
 
