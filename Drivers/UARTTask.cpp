@@ -80,7 +80,7 @@ void UARTTask::HandleCommand(Command& cm)
         //Switch for task specific command within DATA_COMMAND
         switch (cm.GetTaskCommand()) {
         case UART_TASK_COMMAND_SEND_DEBUG:
-            UART::GPS->Transmit(cm.GetDataPointer(), cm.GetDataSize());
+            UART::Debug->Transmit(cm.GetDataPointer(), cm.GetDataSize());
             break;
 
         default:
