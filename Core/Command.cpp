@@ -94,7 +94,7 @@ uint8_t* Command::AllocateData(uint16_t dataSize)
 {
     // If we don't have anything allocated, allocate and return success
     if (this->data == nullptr && !bShouldFreeData) {
-        this->data = cube_malloc(dataSize);
+        this->data = soar_malloc(dataSize);
         this->bShouldFreeData = true;
         this->dataSize = dataSize;
         statAllocationCounter += 1;
@@ -148,7 +148,7 @@ bool Command::CopyDataToCommand(uint8_t* dataSrc, uint16_t size)
 void Command::Reset()
 {
     if(bShouldFreeData && data != nullptr) {
-        cube_free(data);
+        soar_free(data);
         statAllocationCounter -= 1;
 		data = nullptr;
         bShouldFreeData = false;
