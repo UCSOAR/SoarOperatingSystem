@@ -13,7 +13,7 @@
 
 #include "UARTTask.hpp"
 #include "UARTDriver.hpp"
-#include "UARTProtoTask.hpp"
+//#include "UARTProtoTask.hpp"
 
 /**
  * TODO: Currently not used, would be used for DMA buffer configuration or interrupt setup
