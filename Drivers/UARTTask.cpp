@@ -13,6 +13,7 @@
 
 #include "UARTTask.hpp"
 #include "UARTDriver.hpp"
+#include "UARTProtoTask.hpp"
 
 /**
  * TODO: Currently not used, would be used for DMA buffer configuration or interrupt setup
@@ -82,7 +83,8 @@ void UARTTask::HandleCommand(Command& cm)
         case UART_TASK_COMMAND_SEND_DEBUG:
             UART::Debug->Transmit(cm.GetDataPointer(), cm.GetDataSize());
             break;
-
+        case UART_TASK_COMMAND_SEND_PBB:
+        	UART::pbb->Transmit(cm.GetDataPointer(), cm.GetDataSize());
         default:
             SOAR_PRINT("UARTTask - Received Unsupported DATA_COMMAND {%d}\n", cm.GetTaskCommand());
             break;
