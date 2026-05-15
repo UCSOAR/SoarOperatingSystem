@@ -14,6 +14,7 @@
 #include "UARTTask.hpp"
 #include "UARTDriver.hpp"
 //#include "UARTProtoTask.hpp"
+#include "main.h"
 
 /**
  * TODO: Currently not used, would be used for DMA buffer configuration or interrupt setup
@@ -84,7 +85,14 @@ void UARTTask::HandleCommand(Command& cm)
             UART::Debug->Transmit(cm.GetDataPointer(), cm.GetDataSize());
             break;
         case UART_TASK_COMMAND_SEND_PBB:
+        	HAL_GPIO_WritePin(RS485_DE_GPIO_Port, RS485_DE_Pin, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(RS485_RE_GPIO_Port, RS485_RE_Pin, GPIO_PIN_RESET);
+			HAL_Delay(1);
         	UART::PBB->Transmit(cm.GetDataPointer(), cm.GetDataSize());
+        	HAL_Delay(1);
+        	HAL_GPIO_WritePin(RS485_DE_GPIO_Port, RS485_DE_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(RS485_RE_GPIO_Port, RS485_RE_Pin, GPIO_PIN_RESET);
+        	break;
         default:
             SOAR_PRINT("UARTTask - Received Unsupported DATA_COMMAND {%d}\n", cm.GetTaskCommand());
             break;
