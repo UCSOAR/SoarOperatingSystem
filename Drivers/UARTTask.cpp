@@ -85,6 +85,7 @@ void UARTTask::HandleCommand(Command& cm)
             UART::Debug->Transmit(cm.GetDataPointer(), cm.GetDataSize());
             break;
         case UART_TASK_COMMAND_SEND_PBB:
+#ifdef IS_PBB
         	HAL_GPIO_WritePin(RS485_RE_GPIO_Port, RS485_RE_Pin, GPIO_PIN_SET);
         	HAL_GPIO_WritePin(RS485_DE_GPIO_Port, RS485_DE_Pin, GPIO_PIN_SET);
 			for(volatile uint16_t i = 0; i < 150; i++) {
@@ -93,6 +94,7 @@ void UARTTask::HandleCommand(Command& cm)
         	UART::PBB->Transmit(cm.GetDataPointer(), cm.GetDataSize());
         	HAL_GPIO_WritePin(RS485_DE_GPIO_Port, RS485_DE_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(RS485_RE_GPIO_Port, RS485_RE_Pin, GPIO_PIN_RESET);
+#endif
         	break;
         default:
             SOAR_PRINT("UARTTask - Received Unsupported DATA_COMMAND {%d}\n", cm.GetTaskCommand());
