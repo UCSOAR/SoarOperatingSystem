@@ -84,6 +84,11 @@ void UARTTask::HandleCommand(Command& cm)
         case UART_TASK_COMMAND_SEND_DEBUG:
             UART::Debug->Transmit(cm.GetDataPointer(), cm.GetDataSize());
             break;
+
+        case UART_TASK_COMMAND_SEND_RADIO:
+			UART::Radio->Transmit(cm.GetDataPointer(), cm.GetDataSize());
+			break;
+
         case UART_TASK_COMMAND_SEND_PBB:
 #ifdef IS_PBB
         	HAL_GPIO_WritePin(RS485_RE_GPIO_Port, RS485_RE_Pin, GPIO_PIN_SET);
