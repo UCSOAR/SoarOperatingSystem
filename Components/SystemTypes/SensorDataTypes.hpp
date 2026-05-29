@@ -104,4 +104,16 @@ typedef struct
     AltitudeType    totalAltitude_;
 } GPSData;
 
+typedef struct
+{
+    float     temp1;
+    float 	  temp2;
+    float	  temp3;
+} ThermocoupleData;
+
+typedef struct
+{
+    int32_t     pressure_1;
+} PressureTransducerData;
+
 #endif /* SENSORDATATYPES_HPP_ */

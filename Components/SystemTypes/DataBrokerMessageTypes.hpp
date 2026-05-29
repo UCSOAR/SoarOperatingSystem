@@ -30,6 +30,8 @@ enum class DataBrokerMessageTypes : uint8_t {
   BARO_DATA,
   FILTER_DATA,
   MAG_DATA,
+  TC_DATA,
+  PT_DATA
 };
 
 namespace DataBrokerMessageType {
