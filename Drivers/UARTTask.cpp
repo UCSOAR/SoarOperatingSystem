@@ -85,13 +85,15 @@ void UARTTask::HandleCommand(Command& cm)
             UART::Debug->Transmit(cm.GetDataPointer(), cm.GetDataSize());
             break;
 
-// 		  Example of how to get another UART line working.
-//        case UART_TASK_COMMAND_SEND_RADIO:
-//			UART::Radio->Transmit(cm.GetDataPointer(), cm.GetDataSize());
-//			break;
+#ifdef IS_FCB
+        case UART_TASK_COMMAND_SEND_RADIO:
+			UART::Radio->Transmit(cm.GetDataPointer(), cm.GetDataSize());
+			break;
+#endif
 
-        case UART_TASK_COMMAND_SEND_PBB:
 #ifdef IS_PBB
+        case UART_TASK_COMMAND_SEND_PBB:
+
         	HAL_GPIO_WritePin(RS485_RE_GPIO_Port, RS485_RE_Pin, GPIO_PIN_SET);
         	HAL_GPIO_WritePin(RS485_DE_GPIO_Port, RS485_DE_Pin, GPIO_PIN_SET);
 			for(volatile uint16_t i = 0; i < 150; i++) {
