@@ -197,6 +197,9 @@ class DataBroker {
     else if constexpr(matchType<T, PressureTransducerData>()){
     	return &PT_Data_publisher;
     }
+    else if constexpr(matchType<T, PBBPressureTransducerData>()){
+    	return &PBB_PT_Data_publisher;
+    }
     else {
       SOAR_ASSERT(false, "This publisher type does not exist, you must create it");
       return (Publisher<T>*)nullptr;
@@ -211,6 +214,7 @@ class DataBroker {
   inline static Publisher<GPSData> GPS_Data_publisher{DataBrokerMessageTypes::GPS_DATA};
   inline static Publisher<ThermocoupleData> TC_Data_publisher{DataBrokerMessageTypes::TC_DATA};
   inline static Publisher<PressureTransducerData> PT_Data_publisher{DataBrokerMessageTypes::PT_DATA};
+  inline static Publisher<PBBPressureTransducerData> PBB_PT_Data_publisher{DataBrokerMessageTypes::PBB_PT_DATA};
 };
 /************************************
  * FUNCTION DECLARATIONS

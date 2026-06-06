@@ -116,4 +116,10 @@ typedef struct
     int32_t     pressure_1;
 } PressureTransducerData;
 
+typedef struct
+{
+    int32_t     pressure_1;
+    int32_t     pressure_2;
+} PBBPressureTransducerData;
+
 #endif /* SENSORDATATYPES_HPP_ */
