@@ -30,6 +30,7 @@ enum class DataBrokerMessageTypes : uint8_t {
   BARO_DATA,
   FILTER_DATA,
   MAG_DATA,
+  TIME_DATA,
 };
 
 namespace DataBrokerMessageType {
@@ -50,6 +51,10 @@ inline std::string ToString(DataBrokerMessageTypes messageType) {
     }
     case DataBrokerMessageTypes::GPS_DATA: {
           std::string type{"GPS_DATA"};
+          return type;
+        }
+    case DataBrokerMessageTypes::TIME_DATA: {
+          std::string type{"TIME_DATA"};
           return type;
         }
     case DataBrokerMessageTypes::BARO_DATA: {

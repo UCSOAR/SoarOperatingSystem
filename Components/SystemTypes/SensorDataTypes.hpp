@@ -79,6 +79,12 @@ struct MagData {
     int32_t magZ;
 };
 
+// Lightweight timestamp message published by LoggingTask so consumers
+// can use the authoritative log timestamp for samples (ms since boot)
+struct TimeStampData {
+	uint32_t timestamp_ms;
+};
+
 #define NMEA_MAX_LENGTH 82
 
 typedef struct

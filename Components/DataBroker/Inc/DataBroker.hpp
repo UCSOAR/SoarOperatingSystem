@@ -191,6 +191,9 @@ class DataBroker {
     else if constexpr(matchType<T, GPSData>()){
     	return &GPS_Data_publisher;
     }
+    else if constexpr(matchType<T, TimeStampData>()){
+      return &Time_Data_publisher;
+    }
     else {
       SOAR_ASSERT(false, "This publisher type does not exist, you must create it");
       return (Publisher<T>*)nullptr;
@@ -203,6 +206,7 @@ class DataBroker {
   inline static Publisher<BaroData> Baro_Data_publisher{DataBrokerMessageTypes::BARO_DATA};
   inline static Publisher<FilterData> Filter_Data_publisher{DataBrokerMessageTypes::FILTER_DATA};
   inline static Publisher<GPSData> GPS_Data_publisher{DataBrokerMessageTypes::GPS_DATA};
+  inline static Publisher<TimeStampData> Time_Data_publisher{DataBrokerMessageTypes::TIME_DATA};
 
 
 };
