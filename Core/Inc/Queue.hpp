@@ -34,6 +34,7 @@ public:
 
     //Functions
     bool Send(Command& command, bool reportFull = true);
+    bool Send(Command& command, bool reportFull, uint32_t waitTicks);  // waitTicks = 0: never block, drop if full
     bool SendFromISR(Command& command);
 
     bool SendToFront(Command& command);

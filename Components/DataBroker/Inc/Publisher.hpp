@@ -85,7 +85,9 @@ class Publisher {
         // copy data to command
         brokerData.CopyDataToCommand(messsageData, sizeof(T));
 
-        subscriber.getSubscriberQueueHandle()->Send(brokerData);
+        // Never block: a subscriber whose queue is full loses this message, the publisher
+        // (e.g. PollingTask) and the other subscribers carry on at full rate
+        subscriber.getSubscriberQueueHandle()->Send(brokerData, true, 0);
       }
     }
   }

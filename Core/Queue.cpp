@@ -9,6 +9,7 @@
 
 #include "SystemDefines.hpp"
 #include "FreeRTOS.h"
+#include "task.h"
 
 
 /**
@@ -76,10 +77,31 @@ bool Queue::SendToFront(Command& command)
 */
 bool Queue::Send(Command& command, bool reportFull)
 {
-    if (xQueueSend(rtQueueHandle, &command, DEFAULT_QUEUE_SEND_WAIT_TICKS) == pdPASS)
+    return Send(command, reportFull, DEFAULT_QUEUE_SEND_WAIT_TICKS);
+}
+
+/**
+ * @brief Same as Send(), with the time to wait for space. 0 never blocks: a full queue drops
+ *        the command straight away (DataBroker publishes, so a slow subscriber can't stall the sender)
+*/
+bool Queue::Send(Command& command, bool reportFull, uint32_t waitTicks)
+{
+    if (xQueueSend(rtQueueHandle, &command, waitTicks) == pdPASS)
         return true;
 
-    if (reportFull) SOAR_PRINT("Could not send data to queue!\n");
+    // Debug: who sent, which queue (depth identifies the receiving task), what was dropped.
+    // Only the first drop and then every 100th is printed, so a full queue can't flood the UART
+    static uint32_t droppedTotal = 0;
+    droppedTotal++;
+    if (reportFull && (droppedTotal == 1 || droppedTotal % 100 == 0)) {
+        SOAR_PRINT("Could not send data to queue! sender=%s queue=0x%08lx used=%u/%u cmd=%u taskCmd=%u size=%u t=%lums dropped=%lu\n",
+                   pcTaskGetName(NULL), (unsigned long)(uintptr_t)rtQueueHandle,
+                   (unsigned)uxQueueMessagesWaiting(rtQueueHandle), (unsigned)queueDepth,
+                   (unsigned)command.GetCommand(), (unsigned)command.GetTaskCommand(),
+                   (unsigned)command.GetDataSize(),
+                   (unsigned long)(xTaskGetTickCount() * portTICK_PERIOD_MS),
+                   (unsigned long)droppedTotal);
+    }
 
     command.Reset();
 
