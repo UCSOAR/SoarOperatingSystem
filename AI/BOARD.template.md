@@ -11,10 +11,10 @@
 
 ## Peripherals and buses
 
-| Peripheral | Instance | Connected to   |
-| ---------- | -------- | -------------- |
-| <SPI>      | <hspi2>  | <LSM6DSO IMU>  |
-| <UART>     | <UART8>  | <Debug>        |
+| Peripheral | Instance | Connected to  |
+| ---------- | -------- | ------------- |
+| <SPI>      | <hspi2>  | <LSM6DSO IMU> |
+| <UART>     | <UART8>  | <Debug>       |
 
 ## Tasks
 

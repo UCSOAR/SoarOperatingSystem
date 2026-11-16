@@ -18,21 +18,57 @@ AI/
     soar-backend-review/   (placeholder) review diffs against SOAR rules
 ```
 
-## How it will be used (planned, not built yet)
+## Using it in a board repo
 
-A cross-platform Python script (`AI/sync.py`) will generate these files in each
-board repo:
+From the board repo root (use `python` instead of `python3` on Windows):
 
-| Generated file                  | Read by        | Contents                     |
-| ------------------------------- | -------------- | ---------------------------- |
-| `AGENTS.md`                     | Codex, Gemini  | `AI/AGENTS.md` + `BOARD.md`  |
-| `CLAUDE.md`, `GEMINI.md`        | Claude, Gemini | `@AGENTS.md`                 |
-| `.claude/skills/`               | Claude Code    | copy of `AI/skills/`         |
-| `.agents/skills/`               | Codex          | copy of `AI/skills/`         |
+```sh
+cp SoarOS/AI/BOARD.template.md BOARD.md   # once, then fill it in
+python3 SoarOS/AI/sync.py                 # generate / update the files below
+python3 SoarOS/AI/sync.py --check         # CI: exit 1 if anything is out of date
+```
 
-The generated files are real copies (no symlinks), committed to the board repo,
-so they work on Windows, macOS and Linux. A pre-commit hook will regenerate them,
-and CI will fail if they are out of date.
+Commit the generated files. Rerun the script whenever you bump SoarOS or edit
+`BOARD.md`. It needs only Python 3.8+ and the standard library.
+
+`AI/sync.py` generates:
+
+| Generated file           | Read by        | Contents                    |
+| ------------------------ | -------------- | --------------------------- |
+| `AGENTS.md`              | Codex, Gemini  | `AI/AGENTS.md` + `BOARD.md` |
+| `CLAUDE.md`, `GEMINI.md` | Claude, Gemini | `@AGENTS.md`                |
+| `.claude/skills/`        | Claude Code    | copy of `AI/skills/`        |
+| `.agents/skills/`        | Codex          | copy of `AI/skills/`        |
+
+The generated files are real copies (no symlinks), so they work on Windows, macOS
+and Linux. Details:
+
+- Only skill folders containing a `SKILL.md` are synced, so placeholders are
+  skipped. Synced skill folders get a `.soar-ai-generated` marker, and skills a
+  board adds itself are never touched.
+- Skills or files removed from `SoarOS/AI/skills/` are removed from the board on
+  the next sync.
+- The script refuses to overwrite a hand-written `AGENTS.md`, `CLAUDE.md` or
+  `GEMINI.md`. Move board-specific content into `BOARD.md`, or pass `--force`.
+- Line endings are normalized, so Windows `autocrlf` checkouts don't show up as
+  out of date.
+
+### Pre-commit hook (optional)
+
+Add this to the board's `.pre-commit-config.yaml` to regenerate automatically.
+`language: python` makes pre-commit supply the interpreter, so it works on every
+OS:
+
+```yaml
+- repo: local
+  hooks:
+    - id: soar-ai-sync
+      name: Sync SOAR AI files
+      entry: python SoarOS/AI/sync.py
+      language: python
+      pass_filenames: false
+      always_run: true
+```
 
 ## Rules for this folder
 
