@@ -23,4 +23,8 @@
 #include "semphr.h"
 #include "timers.h"
 
+// Kept for application code that relies on SoarOS headers to provide the CMSIS API (osDelay, etc.).
+// Both the CMSIS_V1 and CMSIS_V2 wrappers ship a cmsis_os.h, so this works with either.
+#include "cmsis_os.h"
+
 #endif /* CUBE_PLUSPLUS_INCLUDE_CORE_CUBE_RTOS_HPP_ */
