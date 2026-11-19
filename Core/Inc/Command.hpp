@@ -9,7 +9,7 @@
 #define CUBE_PLUSPLUS_INCLUDE_CORE_COMMAND_H
 /* Includes ------------------------------------------------------------------*/
 #include <atomic>
-#include "cmsis_os.h"
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 #include "SystemDefines.hpp"
 
 /* Macros --------------------------------------------------------------------*/

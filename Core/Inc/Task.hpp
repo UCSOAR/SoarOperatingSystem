@@ -7,7 +7,7 @@
 #ifndef CUBE_INCLUDE_SOAR_CORE_TASK_H
 #define CUBE_INCLUDE_SOAR_CORE_TASK_H
 /* Includes ------------------------------------------------------------------*/
-#include <cmsis_os.h>
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 #include <Core/Inc/Queue.hpp>
 
 /* Macros --------------------------------------------------------------------*/

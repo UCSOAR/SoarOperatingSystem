@@ -8,7 +8,7 @@
 #ifndef CUBE_INCLUDE_CORE_PRIORITY_TASK_HPP
 #define CUBE_INCLUDE_CORE_PRIORITY_TASK_HPP
 /* Includes ------------------------------------------------------------------*/
-#include <cmsis_os.h>
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 #include "PQueue.hpp"
 #include "SystemDefines.hpp"
 

@@ -11,7 +11,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "SystemDefines.hpp"
-#include "cmsis_os.h"
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 
 /* UART Receiver Base Class ------------------------------------------------------------------*/
 /**

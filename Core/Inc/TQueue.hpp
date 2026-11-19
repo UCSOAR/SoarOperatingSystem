@@ -14,7 +14,7 @@
 #ifndef CUBE_PLUSPLUS_INCLUDE_CUBE_CORE_TQUEUE_H
 #define CUBE_PLUSPLUS_INCLUDE_CUBE_CORE_TQUEUE_H
 /* Includes ------------------------------------------------------------------*/
-#include "cmsis_os.h"
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 #include "Command.hpp"
 #include "CubeUtils.hpp"
 #include "FreeRTOS.h"

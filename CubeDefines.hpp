@@ -15,7 +15,7 @@
 #include "CubeUtils.hpp"  // Utility functions
 #include <cstdint>        // For uint32_t, etc.
 #include <cstdio>        // Standard c printf, vsnprintf, etc.
-#include "cmsis_os.h"    // CMSIS RTOS definitions
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 #include "Mutex.hpp"
 
 /* Global Functions ------------------------------------------------------------------*/

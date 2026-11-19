@@ -30,7 +30,9 @@ Open the `.ioc` file by double clicking on it inside the project
 
 ### Middleware Setup
 
-- Under `Middleware and Software Packs` enable FreeRTOS using `CMSIS_V1` (unless you are using a multi-core CPU in which case `CMSIS_V2` may be preferred)
+- Under `Middleware and Software Packs` enable FreeRTOS using either `CMSIS_V1` or `CMSIS_V2` (Cube++ uses the native FreeRTOS API through `CubeRTOS.hpp`, so it does not depend on the CMSIS wrapper version)
+    - Cube++ requires `configTICK_RATE_HZ` (TICK_RATE_HZ) to be 1000, this is checked at compile time
+    - If using `CMSIS_V2`, note that the generated `main.c` calls `osKernelInitialize()` after `USER CODE BEGIN 2`. Because `run_interface()` and the `#if 0` described below skip it, your `run_main()` must call `osKernelInitialize()` before `osKernelStart()` (or start the scheduler with `vTaskStartScheduler()` directly)
 - Change the following values in **config parameters**
     - FreeRTOS Heap Size to fairly large (eg. 64KB on a 90KB RAM chip)
     - MINIMAL_STACK_SIZE to at least 192 Words

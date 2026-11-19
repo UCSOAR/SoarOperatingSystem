@@ -6,7 +6,7 @@
 */
 #include <cstring>
 
-#include "cmsis_os.h"
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 #include "CubeUtils.hpp"
 #include "etl/crc16_xmodem.h"
 #include "SystemDefines.hpp"

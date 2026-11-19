@@ -8,7 +8,7 @@
 #define AVIONICS_INCLUDE_SOAR_CORE_TIMER_H
 /* Includes ------------------------------------------------------------------*/
 #include <CubeUtils.hpp>
-#include "cmsis_os.h"
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 #include "FreeRTOS.h"
 
 /* Macros --------------------------------------------------------------------*/

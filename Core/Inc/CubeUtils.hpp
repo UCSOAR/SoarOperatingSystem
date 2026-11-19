@@ -9,7 +9,7 @@
 */
 #ifndef CUBE_PLUSPLUS_INCLUDE_UTILS_HPP_
 #define CUBE_PLUSPLUS_INCLUDE_UTILS_HPP_
-#include "cmsis_os.h"    // CMSIS RTOS definitions
+#include "CubeRTOS.hpp"    // FreeRTOS kernel API (CMSIS_V1/V2 agnostic)
 
 // Programmer Macros
 constexpr uint16_t ERRVAL = 0xDEAD;    // 16-bit Error value for debugging
@@ -28,8 +28,11 @@ constexpr double MATH_PI = 3.14159265358979323846;
 #define GET_COBS_MAX_LEN(len) (((len) + ((len) / 254) + 1) + 1)    // Get the max length of a COBS encoded string, we add 1 for the 0x00 delimiter
 
 // Conversion macros (SYSTEM)
-#define TICKS_TO_MS(time_ticks) ((time_ticks) * (1000 / osKernelSysTickFrequency)) // System ticks to milliseconds
-#define MS_TO_TICKS(time_ms) ((time_ms) * (osKernelSysTickFrequency / 1000)) // Milliseconds to system ticks
+// Note: these use integer math and are only exact for a 1 kHz tick (other rates would silently truncate to 0).
+// pdMS_TO_TICKS is intentionally not used, as it overflows for large values such as portMAX_DELAY on older FreeRTOS versions.
+static_assert(configTICK_RATE_HZ == 1000, "Cube++ tick conversion macros assume configTICK_RATE_HZ == 1000");
+#define TICKS_TO_MS(time_ticks) ((time_ticks) * (1000 / configTICK_RATE_HZ)) // System ticks to milliseconds
+#define MS_TO_TICKS(time_ms) ((time_ms) * (configTICK_RATE_HZ / 1000)) // Milliseconds to system ticks
 
 // System Time Macros
 constexpr uint32_t MAX_DELAY_MS = TICKS_TO_MS(portMAX_DELAY);
